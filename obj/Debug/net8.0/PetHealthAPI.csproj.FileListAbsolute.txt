@@ -162,3 +162,9 @@ C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\obj\Debug\net8.0\PetHealthAPI.
 C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\obj\Debug\net8.0\PetHealthAPI.pdb
 C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\obj\Debug\net8.0\PetHealthAPI.genruntimeconfig.cache
 C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\obj\Debug\net8.0\ref\PetHealthAPI.dll
+c:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\bin\Debug\net8.0\publish\web.config
+c:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\bin\Debug\net8.0\publish\appsettings.Development.json
+c:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\bin\Debug\net8.0\publish\appsettings.json
+c:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\bin\Debug\net8.0\publish\PetHealthAPI.deps.json
+c:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\bin\Debug\net8.0\publish\PetHealthAPI.runtimeconfig.json
+c:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\obj\Debug\net8.0\PetHealthAPI.sourcelink.json
