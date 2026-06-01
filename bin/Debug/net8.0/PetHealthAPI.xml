@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PetHealthAPI</name>
+    </assembly>
+    <members>
+        <member name="T:PetHealthAPI.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:PetHealthAPI.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PetHealthAPI.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PetHealthAPI.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:PetHealthAPI.Migrations.AddSqlServerSupport">
+            <inheritdoc />
+        </member>
+        <member name="M:PetHealthAPI.Migrations.AddSqlServerSupport.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PetHealthAPI.Migrations.AddSqlServerSupport.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PetHealthAPI.Migrations.AddSqlServerSupport.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PetHealthAPI.Controllers.PetsController.GetInfo">
+            <summary>
+            Provides basic information about the API and its configuration.
+            </summary>
+        </member>
+        <member name="M:PetHealthAPI.Controllers.PetsController.GetById(System.Int32)">
+            <summary>
+            Retrieves a specific pet record by its ID.
+            </summary>
+        </member>
+        <member name="M:PetHealthAPI.Controllers.PetsController.Get">
+            <summary>
+            Retrieves all pet records from the SQL database.
+            </summary>
+        </member>
+        <member name="M:PetHealthAPI.Controllers.PetsController.Post(PetHealthAPI.Models.Pet)">
+            <summary>
+            Adds a new pet record to the SQL database.
+            </summary>
+        </member>
+        <member name="M:PetHealthAPI.Controllers.PetsController.Put(System.Int32,PetHealthAPI.Models.Pet)">
+            <summary>
+            Updates an existing pet record in the SQL database.
+            </summary>
+        </member>
+        <member name="M:PetHealthAPI.Controllers.PetsController.Delete(System.Int32)">
+            <summary>
+            Deletes a pet record from the SQL database.
+            </summary>
+        </member>
+    </members>
+</doc>
