@@ -1,0 +1,14 @@
+[vvs]
+bin/
+obj/
+*.user
+*.suo
+.vs/
+.vscode/
+
+PetPulse.db
+PetPulse.db-journal
+appsettings.Development.json
+
+*.log
+publish/
