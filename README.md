@@ -13,7 +13,7 @@ This is a professional .NET 8 Web API developed as part of Sprint 2 to manage pe
 - **Framework:** .NET 8.0
 - **Database:** MS SQL Server & SQLite
 - **ORM:** Entity Framework Core (EF Core)
-- **Tools:** Swagger/OpenAPI, VS Code Desktop, Postman
+- **Tools:** Swagger/OpenAPI, VS Code Desktop
 
 ## 📥 Setup & Installation
 1. **Clone the repository:**
