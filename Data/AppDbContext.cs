@@ -9,5 +9,6 @@ namespace PetHealthAPI.Data
 
         
         public DbSet<Pet> Pets { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

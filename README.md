@@ -1,34 +1,49 @@
-# Pet Health Tracker API - Sprint 2 Final
+# 🐾 Pet Health Tracker API - Professional Edition (Sprint 3 Complete)
 
-This is a professional .NET 8 Web API developed as part of Sprint 2 to manage pet health records and vitals.
+This is a production-ready .NET 8 Web API designed for managing pet health records with high security, clean architecture, and automated workflows.
 
-## 🚀 Key Features
-- **Full CRUD Support:** Create, Read, Update, and Delete pet records.
-- **Multi-Database Support:** Seamlessly switch between **SQLite** and **SQL Server (SSMS)** via configuration.
-- **Professional Documentation:** Fully interactive **Swagger UI** for API testing.
-- **Stability & Observability:** Implemented **Structured Logging** (ILogger) and **Global Exception Handling Middleware**.
-- **Data Integrity:** Applied Data Annotations for server-side validation.
+## 🚀 Key Features (Updated)
+- **🔐 JWT Authentication:** Secure login & registration system with Role-Based Access Control (Admin only deletion).
+- **🏗️ Clean Architecture:** Implemented **Repository Pattern** and **Service Layer** for better maintainability.
+- **✅ Advanced Validation:** Strict data integrity using **FluentValidation** (e.g., specific rules for pet breeds).
+- **📊 Standardized Responses:** Uniform API response structure (`IsSuccess`, `Message`, `Data`, `Errors`).
+- **🧪 Automated Testing:** Comprehensive **Unit Tests (Moq)** and **Integration Tests** using xUnit.
+- **🐳 Containerization:** Fully Dockerized setup for consistent deployment across environments.
+- **🤖 CI/CD Pipeline:** Automated Build and Test execution via **GitHub Actions**.
 
 ## 🛠️ Tech Stack
-- **Framework:** .NET 8.0
-- **Database:** MS SQL Server & SQLite
-- **ORM:** Entity Framework Core (EF Core)
-- **Tools:** Swagger/OpenAPI, VS Code Desktop
+- **Framework:** .NET 8.0 (C#)
+- **Database:** MS SQL Server (Primary) & SQLite (Portable)
+- **Security:** JWT Bearer Token
+- **Validation:** FluentValidation
+- **Testing:** xUnit, Moq, WebApplicationFactory
+- **DevOps:** Docker, Docker Compose, GitHub Actions
 
 ## 📥 Setup & Installation
+
+### Option 1: Standard Run
 1. **Clone the repository:**
-   `git clone https://github.com/chandrasoodanzenve/PetHealthAPI_Sprint2.git`
-2. **Configure Database:**
-   Update the connection string in `appsettings.json`.
-3. **Apply Migrations:**
+   `git clone https://github.com/chandrasoodanzenve/PetHealthAPI.git`
+2. **Apply Migrations:**
    `dotnet ef database update`
-4. **Run the Application:**
+3. **Run the Application:**
    `dotnet run`
-5. **Access Documentation:**
-   Open `http://localhost:5082/swagger` in your browser.
+
+### Option 2: Docker Run (Recommended)
+1. Ensure Docker Desktop is running.
+2. Run: `docker-compose up --build`
+3. API is accessible at: `http://localhost:5000/swagger`
 
 ## 📂 Project Structure
-- **/Controllers:** REST endpoints logic.
-- **/Models:** Data structure and schema definitions.
-- **/Data:** Database context and configurations.
-- **/Middleware:** Global error handling logic.
+- **/Controllers:** API Request/Response handlers.
+- **/Services:** Business logic layer.
+- **/Repositories:** Data access abstraction.
+- **/Validators:** FluentValidation rules.
+- **/Models:** Data schemas and API Response wrappers.
+- **/PetHealthAPI.Tests:** Unit and Integration test suite.
+
+## 🤖 CI/CD Details
+Every code push to `main` triggers a GitHub Action that:
+1. Restores Dependencies.
+2. Builds the Solution.
+3. Runs all Automated Tests.

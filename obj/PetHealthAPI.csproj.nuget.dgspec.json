@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\chand\\OneDrive\\Desktop\\Calc\\PetHealthAPI\\PetHealthAPI.csproj": {}
+    "C:\\Users\\chand\\OneDrive\\Desktop\\Calc\\PetHealthAPI\\PetHealthAPI.csproj": {}
   },
   "projects": {
-    "c:\\Users\\chand\\OneDrive\\Desktop\\Calc\\PetHealthAPI\\PetHealthAPI.csproj": {
+    "C:\\Users\\chand\\OneDrive\\Desktop\\Calc\\PetHealthAPI\\PetHealthAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\chand\\OneDrive\\Desktop\\Calc\\PetHealthAPI\\PetHealthAPI.csproj",
+        "projectUniqueName": "C:\\Users\\chand\\OneDrive\\Desktop\\Calc\\PetHealthAPI\\PetHealthAPI.csproj",
         "projectName": "PetHealthAPI",
-        "projectPath": "c:\\Users\\chand\\OneDrive\\Desktop\\Calc\\PetHealthAPI\\PetHealthAPI.csproj",
+        "projectPath": "C:\\Users\\chand\\OneDrive\\Desktop\\Calc\\PetHealthAPI\\PetHealthAPI.csproj",
         "packagesPath": "C:\\Users\\chand\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\chand\\OneDrive\\Desktop\\Calc\\PetHealthAPI\\obj\\",
+        "outputPath": "C:\\Users\\chand\\OneDrive\\Desktop\\Calc\\PetHealthAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -50,6 +50,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[11.3.1, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.10, )"
@@ -72,11 +80,11 @@
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[10.0.8, )"
+              "version": "[8.0.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[10.1.7, )"
+              "version": "[6.6.2, )"
             }
           },
           "imports": [
