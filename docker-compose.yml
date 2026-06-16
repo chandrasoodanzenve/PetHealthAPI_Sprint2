@@ -1,5 +1,3 @@
-
-
 services:
   # PetHealth API Service
   api:
@@ -12,8 +10,10 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - DatabaseProvider=SqlServer
       - ConnectionStrings__SqlServerConnection=Server=sqlserver;Database=PetPulseDB;User Id=sa;Password=YourStrong!Password123;TrustServerCertificate=True
+      - ConnectionStrings__RedisConnection=redis:6379
     depends_on:
       - sqlserver
+      - redis 
 
   # SQL Server Service
   sqlserver:
@@ -23,3 +23,9 @@ services:
       - MSSQL_SA_PASSWORD=YourStrong!Password123
     ports:
       - "1433:1433"
+
+  
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
