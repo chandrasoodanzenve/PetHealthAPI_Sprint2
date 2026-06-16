@@ -22,11 +22,11 @@ namespace PetHealthAPI.Tests
 
             var service = new PetService(mockRepo.Object);
 
-            var result = await service.GetAllPetsAsync();
+            var result = await service.GetAllPetsAsync(1,10);
 
-            Assert.NotNull(result);
-            Assert.Equal(2, result.Count());
-            Assert.Equal("Simba", result.First().Name);
+            Assert.NotNull(result.Pets);
+            Assert.Equal(2, result.Pets.Count());
+            Assert.Equal("Simba", result.Pets.First().Name);
         }
     }
 }
