@@ -172,3 +172,12 @@ C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\obj\Debug\net8.0\PetHealthAPI.
 C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\obj\Debug\net8.0\PetHealthAPI.pdb
 C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\obj\Debug\net8.0\PetHealthAPI.genruntimeconfig.cache
 C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\obj\Debug\net8.0\ref\PetHealthAPI.dll
+C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\bin\Debug\net8.0\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\bin\Debug\net8.0\Microsoft.Extensions.Caching.StackExchangeRedis.dll
+C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\bin\Debug\net8.0\Pipelines.Sockets.Unofficial.dll
+C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\bin\Debug\net8.0\StackExchange.Redis.dll
+C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll

@@ -26,6 +26,7 @@
     <Content Remove="PetHealthAPI.Tests\**" />
     <EmbeddedResource Remove="PetHealthAPI.Tests\**" />
     <None Remove="PetHealthAPI.Tests\**" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.9" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 

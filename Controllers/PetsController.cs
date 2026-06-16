@@ -38,12 +38,24 @@ namespace PetHealthAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ApiResponse<IEnumerable<Pet>>>> Get()
-        {
-            var pets = await _petService.GetAllPetsAsync();
-            return Ok(ApiResponse<IEnumerable<Pet>>.Success(pets, "All pets retrieved successfully."));
-        }
+        public async Task<ActionResult<ApiResponse<IEnumerable<Pet>>>> Get(int pageNumber = 1, int pageSize = 10)
+            {
+                var watch = System.Diagnostics.Stopwatch.StartNew(); 
+    
+                var (pets, totalCount) = await _petService.GetAllPetsAsync(pageNumber, pageSize);
+    
+                watch.Stop(); 
+                _logger.LogInformation($"Retrieving pets page {pageNumber} took {watch.ElapsedMilliseconds}ms");
 
+                return Ok(ApiResponse<IEnumerable<Pet>>.Success(pets, $"Total Pets: {totalCount}. Displaying page {pageNumber}. Time taken: {watch.ElapsedMilliseconds}ms"));
+            }
+        [HttpGet("summaries")]
+        public async Task<ActionResult<ApiResponse<IEnumerable<PetSummaryDto>>>> GetSummaries()
+            {
+                _logger.LogInformation("Retrieving light-weight pet summaries.");
+                var summaries = await _petService.GetPetSummariesAsync();
+                return Ok(ApiResponse<IEnumerable<PetSummaryDto>>.Success(summaries, "Pet summaries retrieved successfully."));
+            }
         [HttpPost]
         public async Task<ActionResult<ApiResponse<Pet>>> Post([FromBody] Pet pet)
         {
