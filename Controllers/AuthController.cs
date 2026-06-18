@@ -9,6 +9,9 @@ using System.Text;
 
 namespace PetHealthAPI.Controllers
 {
+        /// <summary>
+        /// Controller for handling authentication-related operations.
+        /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -21,7 +24,9 @@ namespace PetHealthAPI.Controllers
             _context = context;
             _config = config;
         }
-
+        /// <summary> Registers a new user account in the system. </summary>
+        /// <param name="user">The user object containing the username, password, and role for the new account.</param>
+        /// <returns>Returns a success message if the user is registered successfully; otherwise, returns a 400 Bad Request response if the username already exists.</returns>
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] User user)
         {
@@ -31,7 +36,9 @@ namespace PetHealthAPI.Controllers
             await _context.SaveChangesAsync();
             return Ok("User registered successfully!");
         }
-
+        /// <summary> Authenticates a user and generates a JWT token for valid credentials. </summary>
+        /// <param name="request">The login request containing the username and password.</param>
+        /// <returns>Returns a JWT token if the credentials are valid; otherwise, returns an unauthorized response.</returns>
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {

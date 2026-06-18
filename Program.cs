@@ -2,15 +2,25 @@ using SwaggerModels = Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Serilog;
 using Microsoft.EntityFrameworkCore;
 using PetHealthAPI.Data;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using PetHealthAPI.Models;
+using Asp.Versioning;
 
+
+// 1. Serilog Configuration
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("Logs/petapi_log.txt", rollingInterval: RollingInterval.Day) 
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseSerilog(); 
+
 // 1. Database Configuration
 var dbProvider = builder.Configuration.GetValue<string>("DatabaseProvider");
 
@@ -26,10 +36,27 @@ else
 }
 builder.Services.AddScoped<PetHealthAPI.Repositories.IPetRepository, PetHealthAPI.Repositories.PetRepository>();
 builder.Services.AddScoped<PetHealthAPI.Services.IPetService, PetHealthAPI.Services.PetService>();
-builder.Services.AddStackExchangeRedisCache(options =>
+builder.Services.AddDistributedMemoryCache();
+// builder.Services.AddStackExchangeRedisCache(options =>
+// {
+//     options.Configuration = builder.Configuration.GetConnectionString("RedisConnection");
+//     options.InstanceName = "PetHealth_";
+// });
+// 1. API Versioning Setup
+builder.Services.AddApiVersioning(options =>
 {
-    options.Configuration = builder.Configuration.GetConnectionString("RedisConnection");
-    options.InstanceName = "PetHealth_";
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.AssumeDefaultVersionWhenUnspecified = true; 
+    options.ReportApiVersions = true; 
+    options.ApiVersionReader = ApiVersionReader.Combine(
+        new UrlSegmentApiVersionReader(), 
+        new HeaderApiVersionReader("x-api-version") 
+    );
+})
+.AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV"; 
+    options.SubstituteApiVersionInUrl = true;
 });
 builder.Services.AddControllers();
 builder.Services.Configure<ApiBehaviorOptions>(options =>
@@ -40,6 +67,8 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
             .SelectMany(v => v.Errors)
             .Select(e => e.ErrorMessage)
             .ToList();
+            var correlationId = context.HttpContext.Items["CorrelationId"]?.ToString() ?? "N/A";
+            Log.Warning("Validation failed! CorrelationID: {CorrelationId}. Errors: {Errors}", correlationId, string.Join(", ", errors));
 
         var response = ApiResponse<object>.Failure("Validation failed", errors);
         return new BadRequestObjectResult(response);
@@ -51,8 +80,8 @@ builder.Services.AddValidatorsFromAssemblyContaining<PetHealthAPI.Validators.Pet
 // 2. Swagger Configuration with JWT
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new SwaggerModels.OpenApiInfo { Title = "Pet Pulse API", Version = "v1" });
-    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.SwaggerDoc("v1", new SwaggerModels.OpenApiInfo { Title = "Pet API v1", Version = "v1" });
+    options.SwaggerDoc("v2", new SwaggerModels.OpenApiInfo { Title = "Pet API v2", Version = "v2" });    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     options.IncludeXmlComments(xmlPath);
     // JWT Security Definition
@@ -101,9 +130,20 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = jwtSettings["Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(key)
     };
+    options.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context =>
+        {
+            var correlationId = context.HttpContext.Items["CorrelationId"]?.ToString() ?? "N/A";
+            Log.Error("Authentication failed! CorrelationID: {CorrelationId}. Error: {Message}", correlationId, context.Exception.Message);
+            return Task.CompletedTask;
+        }
+    };
 });
 builder.Services.AddAuthorization();
 var app = builder.Build();
+app.UseMiddleware<PetHealthAPI.Middleware.CorrelationIdMiddleware>();
+
 // Middleware Order
 app.UseMiddleware<PetHealthAPI.Middleware.ExceptionMiddleware>();
 
@@ -111,11 +151,25 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(options => {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Pet API - Version 1.0");
+        options.SwaggerEndpoint("/swagger/v2/swagger.json", "Pet API - Version 2.0");
         options.DocumentTitle = "Pet Pulse - Health Tracker Pro API"; 
     });
 }
 app.UseAuthentication(); 
 app.UseAuthorization();  
 app.MapControllers();
-app.Run();
+try
+{
+    Log.Information("API Starting Up...");
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "API failed to start correctly!");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
 public partial class Program { }
