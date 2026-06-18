@@ -1,0 +1,126 @@
+2026-06-18 10:30:40.668 +05:30 [INF] API Starting Up...
+2026-06-18 10:30:40.954 +05:30 [INF] User profile is available. Using 'C:\Users\chand\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-06-18 10:30:42.771 +05:30 [INF] Now listening on: http://localhost:5082
+2026-06-18 10:30:42.877 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-18 10:30:43.526 +05:30 [INF] Hosting environment: Development
+2026-06-18 10:30:43.750 +05:30 [INF] Content root path: C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI
+2026-06-18 10:33:21.442 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger - null null
+2026-06-18 10:33:22.031 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger - 301 0 null 623.0799ms
+2026-06-18 10:33:22.111 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/index.html - null null
+2026-06-18 10:33:22.428 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/index.html - 200 null text/html;charset=utf-8 320.9638ms
+2026-06-18 10:33:22.513 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-standalone-preset.js - null null
+2026-06-18 10:33:22.513 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-bundle.js - null null
+2026-06-18 10:33:22.575 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui.css - null null
+2026-06-18 10:33:22.831 +05:30 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2026-06-18 10:33:22.831 +05:30 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2026-06-18 10:33:22.861 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-standalone-preset.js - 200 230280 text/javascript 348.5155ms
+2026-06-18 10:33:22.869 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui.css - 200 152034 text/css 293.9226ms
+2026-06-18 10:33:22.932 +05:30 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2026-06-18 10:33:22.991 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-bundle.js - 200 1456926 text/javascript 477.4722ms
+2026-06-18 10:33:23.547 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - null null
+2026-06-18 10:33:24.233 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 685.916ms
+2026-06-18 10:46:14.901 +05:30 [INF] Application is shutting down...
+2026-06-18 10:47:03.363 +05:30 [INF] API Starting Up...
+2026-06-18 10:47:03.553 +05:30 [INF] User profile is available. Using 'C:\Users\chand\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-06-18 10:47:03.842 +05:30 [INF] Now listening on: http://localhost:5082
+2026-06-18 10:47:03.858 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-18 10:47:03.874 +05:30 [INF] Hosting environment: Development
+2026-06-18 10:47:03.896 +05:30 [INF] Content root path: C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI
+2026-06-18 10:47:40.664 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/index.html - null null
+2026-06-18 10:47:41.216 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/index.html - 200 null text/html;charset=utf-8 555.1524ms
+2026-06-18 10:47:41.292 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-bundle.js - null null
+2026-06-18 10:47:41.292 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-standalone-preset.js - null null
+2026-06-18 10:47:41.323 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui.css - null null
+2026-06-18 10:47:41.468 +05:30 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2026-06-18 10:47:41.473 +05:30 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2026-06-18 10:47:41.473 +05:30 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2026-06-18 10:47:41.528 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-standalone-preset.js - 200 230280 text/javascript 237.4686ms
+2026-06-18 10:47:41.526 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-bundle.js - 200 1456926 text/javascript 234.8788ms
+2026-06-18 10:47:41.505 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui.css - 200 152034 text/css 182.1457ms
+2026-06-18 10:47:42.217 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - null null
+2026-06-18 10:47:42.298 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/favicon-32x32.png - null null
+2026-06-18 10:47:42.332 +05:30 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2026-06-18 10:47:42.381 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/favicon-32x32.png - 200 628 image/png 83.5403ms
+2026-06-18 10:47:42.849 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 632.13ms
+2026-06-18 10:47:48.077 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/v2/swagger.json - null null
+2026-06-18 10:47:48.188 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/v2/swagger.json - 200 null application/json;charset=utf-8 110.8169ms
+2026-06-18 11:08:39.176 +05:30 [INF] Application is shutting down...
+2026-06-18 11:10:20.560 +05:30 [INF] API Starting Up...
+2026-06-18 11:10:20.736 +05:30 [INF] User profile is available. Using 'C:\Users\chand\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-06-18 11:10:20.934 +05:30 [INF] Now listening on: http://localhost:5082
+2026-06-18 11:10:20.951 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-18 11:10:20.956 +05:30 [INF] Hosting environment: Development
+2026-06-18 11:10:20.964 +05:30 [INF] Content root path: C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI
+2026-06-18 11:10:28.291 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/index.html?urls.primaryName=Pet+API+-+Version+2.0 - null null
+2026-06-18 11:10:29.564 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/index.html?urls.primaryName=Pet+API+-+Version+2.0 - 200 null text/html;charset=utf-8 1277.1964ms
+2026-06-18 11:10:29.631 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-standalone-preset.js - null null
+2026-06-18 11:10:29.631 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-bundle.js - null null
+2026-06-18 11:10:29.667 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui.css - null null
+2026-06-18 11:10:29.802 +05:30 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2026-06-18 11:10:29.802 +05:30 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2026-06-18 11:10:29.844 +05:30 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2026-06-18 11:10:29.930 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui.css - 200 152034 text/css 262.4971ms
+2026-06-18 11:10:29.935 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-standalone-preset.js - 200 230280 text/javascript 303.722ms
+2026-06-18 11:10:29.950 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-bundle.js - 200 1456926 text/javascript 320.253ms
+2026-06-18 11:10:30.665 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/v2/swagger.json - null null
+2026-06-18 11:10:30.669 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/favicon-32x32.png - null null
+2026-06-18 11:10:31.217 +05:30 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2026-06-18 11:10:31.241 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/favicon-32x32.png - 200 628 image/png 571.9553ms
+2026-06-18 11:10:31.492 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/v2/swagger.json - 200 null application/json;charset=utf-8 826.8952ms
+2026-06-18 11:10:35.448 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - null null
+2026-06-18 11:10:35.723 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 275.2059ms
+2026-06-18 11:10:54.972 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/v2/swagger.json - null null
+2026-06-18 11:10:55.030 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/v2/swagger.json - 200 null application/json;charset=utf-8 57.6598ms
+2026-06-18 11:10:58.890 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - null null
+2026-06-18 11:10:58.945 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 54.558ms
+2026-06-18 11:25:09.728 +05:30 [INF] Application is shutting down...
+2026-06-18 11:26:01.723 +05:30 [INF] API Starting Up...
+2026-06-18 11:26:01.936 +05:30 [INF] User profile is available. Using 'C:\Users\chand\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-06-18 11:26:02.243 +05:30 [INF] Now listening on: http://localhost:5082
+2026-06-18 11:26:02.272 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-18 11:26:02.284 +05:30 [INF] Hosting environment: Development
+2026-06-18 11:26:02.291 +05:30 [INF] Content root path: C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI
+2026-06-18 11:26:30.519 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/index.html?urls.primaryName=Pet+API+-+Version+1.0 - null null
+2026-06-18 11:26:31.390 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/index.html?urls.primaryName=Pet+API+-+Version+1.0 - 200 null text/html;charset=utf-8 875.6615ms
+2026-06-18 11:26:31.441 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-standalone-preset.js - null null
+2026-06-18 11:26:31.441 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-bundle.js - null null
+2026-06-18 11:26:31.463 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui.css - null null
+2026-06-18 11:26:31.550 +05:30 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2026-06-18 11:26:31.551 +05:30 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2026-06-18 11:26:31.551 +05:30 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2026-06-18 11:26:31.739 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui.css - 200 152034 text/css 275.8774ms
+2026-06-18 11:26:31.745 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-bundle.js - 200 1456926 text/javascript 304.3597ms
+2026-06-18 11:26:31.753 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-standalone-preset.js - 200 230280 text/javascript 313.7591ms
+2026-06-18 11:26:32.329 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - null null
+2026-06-18 11:26:32.346 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/favicon-32x32.png - null null
+2026-06-18 11:26:32.535 +05:30 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2026-06-18 11:26:32.586 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/favicon-32x32.png - 200 628 image/png 240.0361ms
+2026-06-18 11:26:33.050 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 721.1447ms
+2026-06-18 12:08:44.477 +05:30 [INF] Application is shutting down...
+2026-06-18 12:10:35.517 +05:30 [INF] API Starting Up...
+2026-06-18 12:10:36.006 +05:30 [INF] User profile is available. Using 'C:\Users\chand\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-06-18 12:10:37.286 +05:30 [INF] Now listening on: http://localhost:5082
+2026-06-18 12:10:37.296 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-18 12:10:37.305 +05:30 [INF] Hosting environment: Development
+2026-06-18 12:10:37.307 +05:30 [INF] Content root path: C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI
+2026-06-18 12:10:46.409 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/index.html?urls.primaryName=Pet+API+-+Version+1.0 - null null
+2026-06-18 12:10:48.392 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/index.html?urls.primaryName=Pet+API+-+Version+1.0 - 200 null text/html;charset=utf-8 1985.2134ms
+2026-06-18 12:10:48.458 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-bundle.js - null null
+2026-06-18 12:10:48.463 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-standalone-preset.js - null null
+2026-06-18 12:10:48.520 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui.css - null null
+2026-06-18 12:10:48.703 +05:30 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2026-06-18 12:10:48.703 +05:30 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2026-06-18 12:10:49.012 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui.css - 200 152034 text/css 491.5786ms
+2026-06-18 12:10:49.012 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-standalone-preset.js - 200 230280 text/javascript 548.0354ms
+2026-06-18 12:10:49.281 +05:30 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2026-06-18 12:10:49.315 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-bundle.js - 200 1456926 text/javascript 858.5898ms
+2026-06-18 12:10:50.091 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - null null
+2026-06-18 12:10:50.154 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/favicon-32x32.png - null null
+2026-06-18 12:10:50.423 +05:30 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2026-06-18 12:10:50.449 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/favicon-32x32.png - 200 628 image/png 294.6168ms
+2026-06-18 12:10:51.391 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 1300.0019ms
+2026-06-18 12:12:00.052 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/v2/swagger.json - null null
+2026-06-18 12:12:00.219 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/v2/swagger.json - 200 null application/json;charset=utf-8 166.2232ms
+2026-06-18 12:12:03.728 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - null null
+2026-06-18 12:12:03.961 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 233.3758ms
+2026-06-18 12:32:52.211 +05:30 [INF] Application is shutting down...
