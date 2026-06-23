@@ -7,7 +7,7 @@ using Xunit;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Diagnostics.Metrics;
+using System.Diagnostics.Metrics; 
 
 namespace PetHealthAPI.Tests
 {
@@ -16,10 +16,13 @@ namespace PetHealthAPI.Tests
         [Fact]
         public async Task GetAllPetsAsync_ShouldReturnAllPets()
         {
-           
             var mockRepo = new Mock<IPetRepository>();
             var mockCache = new Mock<IDistributedCache>(); 
             var mockMeterFactory = new Mock<IMeterFactory>(); 
+
+            mockMeterFactory.Setup(m => m.Create(It.IsAny<MeterOptions>()))
+                           .Returns(new Meter("TestMeter"));
+
             var fakePets = new List<Pet>
             {
                 new Pet { Id = 1, Name = "Simba", Breed = "Dog", HealthScore = 90 },
@@ -27,6 +30,7 @@ namespace PetHealthAPI.Tests
             };
             mockRepo.Setup(repo => repo.GetPagedAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .ReturnsAsync((fakePets, 2));
+
             var service = new PetService(mockRepo.Object, mockCache.Object, mockMeterFactory.Object);
             var result = await service.GetAllPetsAsync(1, 10);
             Assert.NotNull(result.Pets);
