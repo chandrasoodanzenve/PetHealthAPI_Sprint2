@@ -9,6 +9,8 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    env:
+      Jwt__Key: ${{ secrets.JWT_KEY }}
 
     steps:
       - uses: actions/checkout@v4
