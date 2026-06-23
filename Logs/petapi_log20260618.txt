@@ -124,3 +124,144 @@
 2026-06-18 12:12:03.728 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - null null
 2026-06-18 12:12:03.961 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 233.3758ms
 2026-06-18 12:32:52.211 +05:30 [INF] Application is shutting down...
+2026-06-18 13:12:22.114 +05:30 [INF] API Starting Up...
+2026-06-18 13:12:22.934 +05:30 [INF] User profile is available. Using 'C:\Users\chand\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-06-18 13:12:23.512 +05:30 [INF] Now listening on: http://localhost:5082
+2026-06-18 13:12:23.852 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-18 13:12:24.451 +05:30 [INF] Hosting environment: Development
+2026-06-18 13:12:24.668 +05:30 [INF] Content root path: C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI
+2026-06-18 14:04:52.433 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/index.html?urls.primaryName=Pet+API+-+Version+1.0 - null null
+2026-06-18 14:04:53.839 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/index.html?urls.primaryName=Pet+API+-+Version+1.0 - 200 null text/html;charset=utf-8 1436.87ms
+2026-06-18 14:04:53.916 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui.css - null null
+2026-06-18 14:04:53.916 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-bundle.js - null null
+2026-06-18 14:04:53.919 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-standalone-preset.js - null null
+2026-06-18 14:04:54.219 +05:30 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2026-06-18 14:04:54.219 +05:30 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2026-06-18 14:04:54.277 +05:30 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2026-06-18 14:04:54.318 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-bundle.js - 200 1456926 text/javascript 402.4691ms
+2026-06-18 14:04:54.318 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui.css - 200 152034 text/css 401.6576ms
+2026-06-18 14:04:54.318 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-standalone-preset.js - 200 230280 text/javascript 398.6894ms
+2026-06-18 14:04:54.785 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - null null
+2026-06-18 14:04:54.790 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/favicon-32x32.png - null null
+2026-06-18 14:04:54.800 +05:30 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2026-06-18 14:04:54.817 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/favicon-32x32.png - 200 628 image/png 26.5938ms
+2026-06-18 14:04:55.466 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 681.4361ms
+2026-06-18 14:05:40.600 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/v2/swagger.json - null null
+2026-06-18 14:05:40.624 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/v2/swagger.json - 200 null application/json;charset=utf-8 24.2531ms
+2026-06-18 14:05:48.452 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/api/v2/pets - null null
+2026-06-18 14:05:49.035 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-18 14:05:49.062 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-18 14:05:49.065 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/api/v2/pets - 401 0 null 613.6683ms
+2026-06-18 14:16:09.618 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - null null
+2026-06-18 14:16:09.703 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 84.4471ms
+2026-06-18 14:16:41.387 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5082/api/Auth/login - application/json 46
+2026-06-18 14:16:41.488 +05:30 [INF] Executing endpoint '400 Unsupported API Version'
+2026-06-18 14:16:41.499 +05:30 [INF] Executed endpoint '400 Unsupported API Version'
+2026-06-18 14:16:41.520 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5082/api/Auth/login - 400 0 null 132.6417ms
+2026-06-18 14:16:58.706 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5082/api/Auth/login - application/json 46
+2026-06-18 14:16:58.826 +05:30 [INF] Executing endpoint 'PetHealthAPI.Controllers.AuthController.Login (PetHealthAPI)'
+2026-06-18 14:16:59.084 +05:30 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(PetHealthAPI.Models.LoginRequest) on controller PetHealthAPI.Controllers.AuthController (PetHealthAPI).
+2026-06-18 14:17:08.120 +05:30 [INF] Executed DbCommand (930ms) [Parameters=[@__request_Username_0='?' (Size = 4000), @__request_Password_1='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Password], [u].[Role], [u].[Username]
+FROM [Users] AS [u]
+WHERE [u].[Username] = @__request_Username_0 AND [u].[Password] = @__request_Password_1
+2026-06-18 14:17:08.616 +05:30 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-06-18 14:17:08.712 +05:30 [INF] Executed action PetHealthAPI.Controllers.AuthController.Login (PetHealthAPI) in 9616.9077ms
+2026-06-18 14:17:08.716 +05:30 [INF] Executed endpoint 'PetHealthAPI.Controllers.AuthController.Login (PetHealthAPI)'
+2026-06-18 14:17:08.741 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5082/api/Auth/login - 200 null application/json; charset=utf-8 10035.5203ms
+2026-06-18 14:17:24.385 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/v2/swagger.json - null null
+2026-06-18 14:17:24.424 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/v2/swagger.json - 200 null application/json;charset=utf-8 39.353ms
+2026-06-18 14:17:37.147 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/api/v2/pets - null null
+2026-06-18 14:17:39.734 +05:30 [INF] Executing endpoint 'PetHealthAPI.Controllers.PetsV2Controller.Get (PetHealthAPI)'
+2026-06-18 14:17:39.788 +05:30 [INF] Route matched with {action = "Get", controller = "PetsV"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller PetHealthAPI.Controllers.PetsV2Controller (PetHealthAPI).
+2026-06-18 14:17:39.795 +05:30 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-06-18 14:17:39.816 +05:30 [INF] Executed action PetHealthAPI.Controllers.PetsV2Controller.Get (PetHealthAPI) in 25.2516ms
+2026-06-18 14:17:39.838 +05:30 [INF] Executed endpoint 'PetHealthAPI.Controllers.PetsV2Controller.Get (PetHealthAPI)'
+2026-06-18 14:17:39.852 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/api/v2/pets - 200 null application/json; charset=utf-8 2705.4829ms
+2026-06-18 14:18:19.984 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - null null
+2026-06-18 14:18:20.050 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 66.5273ms
+2026-06-18 14:24:12.480 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/api/v1/Pets/info - null null
+2026-06-18 14:24:12.615 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-18 14:24:12.617 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-18 14:24:12.619 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/api/v1/Pets/info - 401 0 null 138.9237ms
+2026-06-18 14:24:43.457 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/api/v1/Pets/1 - null null
+2026-06-18 14:24:43.535 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-18 14:24:43.539 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-18 14:24:43.552 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/api/v1/Pets/1 - 401 0 null 94.8472ms
+2026-06-18 14:25:07.269 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/api/v1/Pets?pageNumber=1&pageSize=10 - null null
+2026-06-18 14:25:07.330 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-18 14:25:07.363 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-18 14:25:07.397 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/api/v1/Pets?pageNumber=1&pageSize=10 - 401 0 null 127.4966ms
+2026-06-18 14:26:17.870 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/api/v1/Pets/info - null null
+2026-06-18 14:26:17.926 +05:30 [INF] Executing endpoint 'PetHealthAPI.Controllers.PetsController.GetInfo (PetHealthAPI)'
+2026-06-18 14:26:17.942 +05:30 [INF] Route matched with {action = "GetInfo", controller = "Pets"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GetInfo() on controller PetHealthAPI.Controllers.PetsController (PetHealthAPI).
+2026-06-18 14:26:17.948 +05:30 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType1`3[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-06-18 14:26:17.959 +05:30 [INF] Executed action PetHealthAPI.Controllers.PetsController.GetInfo (PetHealthAPI) in 13.1854ms
+2026-06-18 14:26:17.965 +05:30 [INF] Executed endpoint 'PetHealthAPI.Controllers.PetsController.GetInfo (PetHealthAPI)'
+2026-06-18 14:26:17.967 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/api/v1/Pets/info - 200 null application/json; charset=utf-8 97.5354ms
+2026-06-18 14:27:07.519 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/api/v1/Pets/1 - null null
+2026-06-18 14:27:07.636 +05:30 [INF] Executing endpoint 'PetHealthAPI.Controllers.PetsController.GetById (PetHealthAPI)'
+2026-06-18 14:27:07.753 +05:30 [INF] Route matched with {action = "GetById", controller = "Pets"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PetHealthAPI.Models.ApiResponse`1[PetHealthAPI.Models.Pet]]] GetById(Int32) on controller PetHealthAPI.Controllers.PetsController (PetHealthAPI).
+2026-06-18 14:27:11.906 +05:30 [INF] Executed DbCommand (574ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[Id], [p].[Breed], [p].[HealthScore], [p].[Name]
+FROM [Pets] AS [p]
+WHERE [p].[Id] = @__p_0
+2026-06-18 14:27:11.947 +05:30 [INF] Executing NotFoundObjectResult, writing value of type 'PetHealthAPI.Models.ApiResponse`1[[PetHealthAPI.Models.Pet, PetHealthAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-18 14:27:11.989 +05:30 [INF] Executed action PetHealthAPI.Controllers.PetsController.GetById (PetHealthAPI) in 4230.0821ms
+2026-06-18 14:27:11.996 +05:30 [INF] Executed endpoint 'PetHealthAPI.Controllers.PetsController.GetById (PetHealthAPI)'
+2026-06-18 14:27:12.003 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/api/v1/Pets/1 - 404 null application/json; charset=utf-8 4483.6393ms
+2026-06-18 14:27:33.822 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/api/v1/Pets?pageNumber=1&pageSize=10 - null null
+2026-06-18 14:27:33.945 +05:30 [INF] Executing endpoint 'PetHealthAPI.Controllers.PetsController.Get (PetHealthAPI)'
+2026-06-18 14:27:33.968 +05:30 [INF] Route matched with {action = "Get", controller = "Pets"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PetHealthAPI.Models.ApiResponse`1[System.Collections.Generic.IEnumerable`1[PetHealthAPI.Models.Pet]]]] Get(Int32, Int32) on controller PetHealthAPI.Controllers.PetsController (PetHealthAPI).
+2026-06-18 14:27:35.579 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Pets] AS [p]
+2026-06-18 14:27:35.986 +05:30 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-06-18 14:27:35.989 +05:30 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-06-18 14:27:36.490 +05:30 [INF] Executed DbCommand (494ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[Breed], [p].[HealthScore], [p].[Name]
+FROM [Pets] AS [p]
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2026-06-18 14:27:36.586 +05:30 [INF] Retrieving pets page 1 took 2232ms
+2026-06-18 14:27:36.588 +05:30 [INF] Executing OkObjectResult, writing value of type 'PetHealthAPI.Models.ApiResponse`1[[System.Collections.Generic.IEnumerable`1[[PetHealthAPI.Models.Pet, PetHealthAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-06-18 14:27:36.595 +05:30 [INF] Executed action PetHealthAPI.Controllers.PetsController.Get (PetHealthAPI) in 2611.6404ms
+2026-06-18 14:27:36.602 +05:30 [INF] Executed endpoint 'PetHealthAPI.Controllers.PetsController.Get (PetHealthAPI)'
+2026-06-18 14:27:36.604 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/api/v1/Pets?pageNumber=1&pageSize=10 - 200 null application/json; charset=utf-8 2782.1981ms
+2026-06-18 14:27:47.354 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/api/v1/Pets/2 - null null
+2026-06-18 14:27:47.468 +05:30 [INF] Executing endpoint 'PetHealthAPI.Controllers.PetsController.GetById (PetHealthAPI)'
+2026-06-18 14:27:47.475 +05:30 [INF] Route matched with {action = "GetById", controller = "Pets"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PetHealthAPI.Models.ApiResponse`1[PetHealthAPI.Models.Pet]]] GetById(Int32) on controller PetHealthAPI.Controllers.PetsController (PetHealthAPI).
+2026-06-18 14:27:47.530 +05:30 [INF] Executed DbCommand (16ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[Id], [p].[Breed], [p].[HealthScore], [p].[Name]
+FROM [Pets] AS [p]
+WHERE [p].[Id] = @__p_0
+2026-06-18 14:27:47.558 +05:30 [INF] Executing OkObjectResult, writing value of type 'PetHealthAPI.Models.ApiResponse`1[[PetHealthAPI.Models.Pet, PetHealthAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-18 14:27:47.577 +05:30 [INF] Executed action PetHealthAPI.Controllers.PetsController.GetById (PetHealthAPI) in 85.1658ms
+2026-06-18 14:27:47.596 +05:30 [INF] Executed endpoint 'PetHealthAPI.Controllers.PetsController.GetById (PetHealthAPI)'
+2026-06-18 14:27:47.602 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/api/v1/Pets/2 - 200 null application/json; charset=utf-8 247.6559ms
+2026-06-18 16:43:46.353 +05:30 [INF] API Starting Up...
+2026-06-18 16:43:46.596 +05:30 [INF] User profile is available. Using 'C:\Users\chand\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-06-18 16:43:46.843 +05:30 [INF] Now listening on: http://localhost:5082
+2026-06-18 16:43:46.851 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-18 16:43:46.856 +05:30 [INF] Hosting environment: Development
+2026-06-18 16:43:46.865 +05:30 [INF] Content root path: C:\Users\chand\OneDrive\Desktop\Calc\PetHealthAPI
+2026-06-18 16:44:22.844 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/index.html - null null
+2026-06-18 16:44:23.727 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/index.html - 200 null text/html;charset=utf-8 916.5709ms
+2026-06-18 16:44:24.047 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-bundle.js - null null
+2026-06-18 16:44:24.056 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-standalone-preset.js - null null
+2026-06-18 16:44:24.110 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui.css - null null
+2026-06-18 16:44:24.372 +05:30 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2026-06-18 16:44:24.372 +05:30 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2026-06-18 16:44:24.457 +05:30 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2026-06-18 16:44:24.549 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui.css - 200 152034 text/css 439.1553ms
+2026-06-18 16:44:24.593 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-standalone-preset.js - 200 230280 text/javascript 537.1721ms
+2026-06-18 16:44:24.622 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/swagger-ui-bundle.js - 200 1456926 text/javascript 575.9716ms
+2026-06-18 16:44:25.504 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - null null
+2026-06-18 16:44:25.604 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5082/swagger/favicon-32x32.png - null null
+2026-06-18 16:44:25.690 +05:30 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2026-06-18 16:44:25.706 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/favicon-32x32.png - 200 628 image/png 100.9359ms
+2026-06-18 16:44:26.911 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5082/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 1406.3745ms

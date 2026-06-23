@@ -24,6 +24,7 @@ namespace PetHealthAPI.Middleware
             catch (Exception ex)
             {
                 var correlationId = context.Items["CorrelationId"]?.ToString() ?? "N/A";
+                _logger.LogCritical("ALERT: API Critical Failure detected! CorrelationID: {CorrelationId}. Error: {Message}", correlationId, ex.Message);
 
                 _logger.LogError(ex, "Error occurred ! CorrelationID: {CorrelationId}. Message: {Message}", correlationId, ex.Message);
 

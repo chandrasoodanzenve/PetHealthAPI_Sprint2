@@ -16,6 +16,7 @@ namespace PetHealthAPI.Repositories
         {
             var totalCount = await _context.Pets.CountAsync();
             var pets = await _context.Pets
+                .OrderBy(p => p.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();

@@ -10,7 +10,9 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using PetHealthAPI.Models;
 using Asp.Versioning;
-
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using OpenTelemetry.Metrics;
 
 // 1. Serilog Configuration
 Log.Logger = new LoggerConfiguration()
@@ -19,6 +21,31 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
+var serviceName = "PetHealthAPI";
+var serviceVersion = "1.0.0";
+
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracerProviderBuilder =>
+    {
+        tracerProviderBuilder
+            .AddSource(serviceName)
+            .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(serviceName, serviceVersion))
+            .AddAspNetCoreInstrumentation() 
+            .AddHttpClientInstrumentation()
+            .AddSqlClientInstrumentation()  
+            .AddConsoleExporter()  
+            .AddOtlpExporter(options =>
+                {
+                     options.Endpoint = new Uri("http://localhost:4317"); 
+                });    
+    })
+    .WithMetrics(metricsProviderBuilder =>
+    {
+        metricsProviderBuilder
+            .AddAspNetCoreInstrumentation()
+            .AddMeter("PetHealthAPI.Metrics")
+            .AddConsoleExporter();
+    });
 builder.Host.UseSerilog(); 
 
 // 1. Database Configuration
@@ -59,6 +86,13 @@ builder.Services.AddApiVersioning(options =>
     options.SubstituteApiVersionInUrl = true;
 });
 builder.Services.AddControllers();
+builder.Services.AddHealthChecks()
+    .AddCheck("API-Self-Check", () => Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult.Healthy())
+    .AddSqlServer(
+        connectionString: builder.Configuration.GetConnectionString("SqlServerConnection")!, 
+        name: "Database-Check"
+    );
+builder.Services.AddHostedService<PetHealthAPI.BackgroundServices.PetHealthReminderService>();
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.InvalidModelStateResponseFactory = context =>
@@ -92,7 +126,7 @@ builder.Services.AddSwaggerGen(options =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = SwaggerModels.ParameterLocation.Header,
-        Description = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTc4MDk5MjUxMSwiaXNzIjoiUGV0SGVhbHRoQVBJIiwiYXVkIjoiUGV0UHVsc2VVc2VycyJ9.SedN1sqxLyspGXwcxokGcvhfL-6t3eKcRiWGlI799Ck"
+        Description = "Enter the below token in the format:{your JWT token}. Example:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
     });
     options.AddSecurityRequirement(new SwaggerModels.OpenApiSecurityRequirement
     {
@@ -147,7 +181,7 @@ app.UseMiddleware<PetHealthAPI.Middleware.CorrelationIdMiddleware>();
 // Middleware Order
 app.UseMiddleware<PetHealthAPI.Middleware.ExceptionMiddleware>();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
 {
     app.UseSwagger();
     app.UseSwaggerUI(options => {
@@ -159,6 +193,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication(); 
 app.UseAuthorization();  
 app.MapControllers();
+app.MapHealthChecks("/health");
 try
 {
     Log.Information("API Starting Up...");

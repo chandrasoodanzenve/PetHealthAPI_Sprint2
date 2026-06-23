@@ -1,7 +1,6 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using PetHealthAPI.Models;
 
 namespace PetHealthAPI.Controllers
 {
