@@ -6,12 +6,13 @@ using Asp.Versioning;
 
 namespace PetHealthAPI.Controllers
 {
+    ///<summary>
+    /// Controller for managing pet records in the API.
+    ///</summary>
     [ApiVersion("1.0")] 
     [Route("api/v{version:apiVersion}/[controller]")]
     [Authorize]
     [ApiController]
-    ///<summary>Controller for managing pet records in the API.
-    ///</summary>
     public class PetsController : ControllerBase
     {
         private readonly IPetService _petService;
@@ -31,7 +32,14 @@ namespace PetHealthAPI.Controllers
         {
             var appName = _config["PetSettings:AppName"] ?? "Pet Pulse API";
             var provider = _config["DatabaseProvider"] ?? "Not Set";
-            return Ok(new { Message = $"Welcome to {appName}", Database = provider, Status = "Running" });
+            var envName = _config["EnvironmentName"] ?? "Development"; 
+
+            return Ok(new { 
+        Message = $"Welcome to {appName}", 
+        Database = provider,
+        Environment = envName, 
+        Status = "Running"
+    });
         }
         /// <summary> Retrieves a specific pet record by its unique ID. </summary>
         /// <param name="id">The unique identifier of the pet to retrieve.</param>
@@ -52,10 +60,15 @@ namespace PetHealthAPI.Controllers
             {
                 // throw new Exception("Simulated exception for testing global error handling.");
                 var watch = System.Diagnostics.Stopwatch.StartNew(); 
+                    // await Task.Delay(600); 
     
                 var (pets, totalCount) = await _petService.GetAllPetsAsync(pageNumber, pageSize);
     
                 watch.Stop(); 
+                if (watch.ElapsedMilliseconds > 500) 
+                    {
+                        _logger.LogCritical("ALERT: High Latency detected on GetPets! Time: {Duration}ms", watch.ElapsedMilliseconds);
+                    }
                 _logger.LogInformation($"Retrieving pets page {pageNumber} took {watch.ElapsedMilliseconds}ms");
 
                 return Ok(ApiResponse<IEnumerable<Pet>>.Success(pets, $"Total Pets: {totalCount}. Displaying page {pageNumber}. Time taken: {watch.ElapsedMilliseconds}ms"));
