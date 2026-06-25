@@ -28,3 +28,16 @@ jobs:
 
       - name: Run Tests
         run: dotnet test --no-build --configuration Release --verbosity normal
+
+         # 4. Docker Image Generation 
+      - name: Build Docker Image
+        run: |
+        docker build -t pethealthapi:latest -t pethealthapi:${{ github.run_number }} .
+        echo "Docker image built with tag: v${{ github.run_number }}"
+
+        # 5. Staging Simulation 
+      - name: Deploy to Staging (Simulation)
+        if: github.ref == 'refs/heads/main'
+        run: |
+        echo "Deploying version v${{ github.run_number }} to Staging Server..."
+        echo "Status: Success"

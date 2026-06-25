@@ -3,6 +3,7 @@ using PetHealthAPI.Models;
 using PetHealthAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Asp.Versioning;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace PetHealthAPI.Controllers
 {
@@ -13,6 +14,7 @@ namespace PetHealthAPI.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     [Authorize]
     [ApiController]
+    [EnableRateLimiting("fixed")]
     public class PetsController : ControllerBase
     {
         private readonly IPetService _petService;

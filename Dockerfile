@@ -6,6 +6,7 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["PetHealthAPI.csproj", "."]
+
 RUN dotnet restore "./PetHealthAPI.csproj"
 COPY . .
 RUN dotnet build "PetHealthAPI.csproj" -c Release -o /app/build

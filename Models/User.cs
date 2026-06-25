@@ -21,5 +21,13 @@ namespace PetHealthAPI.Models
         ///     Gets or sets the user's role.
         /// </summary>
         public string Role { get; set; } = "Customer";
+        /// <summary>
+        ///    Gets or sets the user's refresh token for JWT authentication.
+        /// </summary>
+        public string? RefreshToken { get; set; } 
+        /// <summary>
+        ///    Gets or sets the expiration time of the user's refresh token.
+        /// </summary>
+        public DateTime RefreshTokenExpiryTime { get; set; } 
     }
 }

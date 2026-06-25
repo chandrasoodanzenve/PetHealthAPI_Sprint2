@@ -13,6 +13,8 @@ using Asp.Versioning;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using OpenTelemetry.Metrics;
+using Microsoft.AspNetCore.RateLimiting; 
+using System.Threading.RateLimiting;
 
 // 1. Serilog Configuration
 Log.Logger = new LoggerConfiguration()
@@ -23,6 +25,27 @@ Log.Logger = new LoggerConfiguration()
 var builder = WebApplication.CreateBuilder(args);
 var serviceName = "PetHealthAPI";
 var serviceVersion = "1.0.0";
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddPolicy("fixed", httpContext =>
+    {
+        var username = httpContext.User.Identity?.Name;
+        var key = username ?? httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+
+        return RateLimitPartition.GetFixedWindowLimiter(key, _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 10,
+            Window = TimeSpan.FromSeconds(10),
+            QueueLimit = 0
+        });
+    });
+});
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.Limits.MaxRequestBodySize = 1024 * 1024; 
+});
 
 builder.Services.AddOpenTelemetry()
     .WithTracing(tracerProviderBuilder =>
@@ -176,10 +199,29 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddAuthorization();
 var app = builder.Build();
-app.UseMiddleware<PetHealthAPI.Middleware.CorrelationIdMiddleware>();
-
 // Middleware Order
 app.UseMiddleware<PetHealthAPI.Middleware.ExceptionMiddleware>();
+app.UseMiddleware<PetHealthAPI.Middleware.CorrelationIdMiddleware>();
+
+// 2. Security Headers 
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Append("X-Frame-Options", "DENY");
+    context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+    context.Response.Headers.Append("X-XSS-Protection", "1; mode=block");
+    context.Response.Headers.Append("Referrer-Policy", "no-referrer");
+
+    if (context.Request.Path.StartsWithSegments("/swagger"))
+    {
+        context.Response.Headers.Append("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
+    }
+    else
+    {
+        context.Response.Headers.Append("Content-Security-Policy", "default-src 'self'");
+    }
+    await next();
+});
+app.UseRateLimiter();
 
 if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
 {
