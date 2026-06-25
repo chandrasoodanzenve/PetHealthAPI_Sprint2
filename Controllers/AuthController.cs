@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -45,8 +46,52 @@ namespace PetHealthAPI.Controllers
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == request.Username && u.Password == request.Password);
             if (user == null) return Unauthorized("Invalid credentials!");
             var token = GenerateJwtToken(user);
-            return Ok(new { Token = token });
+            var refreshToken = GenerateRefreshToken();
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7); 
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Token = token, RefreshToken = refreshToken });
         }
+        ///<summary> 
+        /// Refreshes the JWT token using a valid refresh token.
+        ///</summary>
+        [HttpPost("refresh")]
+public async Task<IActionResult> Refresh(string refreshToken)
+{
+    var user = await _context.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+    
+    if (user == null || user.RefreshTokenExpiryTime <= DateTime.Now)
+        return BadRequest("Invalid or expired refresh token!");
+
+    var newJwtToken = GenerateJwtToken(user);
+    var newRefreshToken = GenerateRefreshToken();
+
+    // Rotation
+    user.RefreshToken = newRefreshToken;
+    await _context.SaveChangesAsync();
+
+    return Ok(new { Token = newJwtToken, RefreshToken = newRefreshToken });
+}
+/// <summary>
+/// Revokes the current user's refresh token, effectively logging them out of the system.
+/// </summary>
+/// <returns></returns>
+[HttpPost("revoke")]
+[Authorize]
+public async Task<IActionResult> Revoke()
+{
+    var username = User.Identity?.Name;
+    var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+    
+    if (user == null) return BadRequest();
+
+    // Revocation
+    user.RefreshToken = null;
+    await _context.SaveChangesAsync();
+
+    return Ok("Token revoked successfully (Logged out)!");
+}
 
         private string GenerateJwtToken(User user)
         {
@@ -56,6 +101,13 @@ namespace PetHealthAPI.Controllers
             var claims = new[] { new Claim(ClaimTypes.Name, user.Username), new Claim(ClaimTypes.Role, user.Role) };
             var token = new JwtSecurityToken(issuer: jwtSettings["Issuer"], audience: jwtSettings["Audience"], claims: claims, expires: DateTime.Now.AddHours(2), signingCredentials: creds);
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+        private string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[64];
+            using var rng = System.Security.Cryptography.RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
         }
     }
 }
