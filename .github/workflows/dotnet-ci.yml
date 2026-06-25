@@ -1,10 +1,10 @@
-name: PetHealthAPI CI Pipeline
+name: PetHealthAPI Enterprise CI-CD
 
 on:
   push:
-    branches: ["main", "develop"]
+    branches: [ "main", "develop" ]
   pull_request:
-    branches: ["main", "develop"]
+    branches: [ "main", "develop" ]
 
 jobs:
   build-and-test:
@@ -13,31 +13,35 @@ jobs:
       Jwt__Key: ${{ secrets.JWT_KEY }}
 
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Setup .NET 8
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
+    - name: Setup .NET 8
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
 
-      - name: Restore dependencies
-        run: dotnet restore
+    - name: Restore Dependencies
+      run: dotnet restore
 
-      - name: Build
-        run: dotnet build --no-restore --configuration Release
+    - name: Build and Code Quality Check
+      run: dotnet build --no-restore --configuration Release
 
-      - name: Run Tests
-        run: dotnet test --no-build --configuration Release --verbosity normal
+    - name: Run Automated Tests
+      run: dotnet test --no-build --configuration Release --verbosity normal
 
-         # 4. Docker Image Generation 
-      - name: Build Docker Image
-        run: |
+    - name: Docker Build and Version Tagging
+      run: |
         docker build -t pethealthapi:latest -t pethealthapi:${{ github.run_number }} .
-        echo "Docker image built with tag: v${{ github.run_number }}"
+        echo "Successfully created image v${{ github.run_number }}"
 
-        # 5. Staging Simulation 
-      - name: Deploy to Staging (Simulation)
-        if: github.ref == 'refs/heads/main'
-        run: |
-        echo "Deploying version v${{ github.run_number }} to Staging Server..."
-        echo "Status: Success"
+    - name: Deploy to Staging (Simulation)
+      if: github.ref == 'refs/heads/main'
+      run: |
+        echo "Deploying version v${{ github.run_number }} to Staging Environment..."
+        echo "Deployment Success!"
+
+    - name: Rollback Procedure (Simulation)
+      if: failure()
+      run: |
+        echo "Build or Test failed! Triggering automatic rollback to last stable version..."
+        echo "Rollback initiated successfully."
