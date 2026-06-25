@@ -90,7 +90,7 @@ namespace PetHealthAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<ApiResponse<Pet>>> Post([FromBody] Pet pet)
         {
-            await _petService.AddPetAsync(pet);
+            await _petService.AddPetAsync(pet)
             return CreatedAtAction(nameof(GetById), new { id = pet.Id }, ApiResponse<Pet>.Success(pet, "Pet added successfully!"));
         }
         ///<summary> Updates an existing pet record in the database. </summary>
