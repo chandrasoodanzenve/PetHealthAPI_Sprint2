@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\chand\\OneDrive\\Desktop\\Calc\\PetHealthAPI\\PetHealthAPI.csproj": {}
+    "C:\\Calc\\PetHealthAPI\\PetHealthAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\chand\\OneDrive\\Desktop\\Calc\\PetHealthAPI\\PetHealthAPI.csproj": {
+    "C:\\Calc\\PetHealthAPI\\PetHealthAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chand\\OneDrive\\Desktop\\Calc\\PetHealthAPI\\PetHealthAPI.csproj",
+        "projectUniqueName": "C:\\Calc\\PetHealthAPI\\PetHealthAPI.csproj",
         "projectName": "PetHealthAPI",
-        "projectPath": "C:\\Users\\chand\\OneDrive\\Desktop\\Calc\\PetHealthAPI\\PetHealthAPI.csproj",
+        "projectPath": "C:\\Calc\\PetHealthAPI\\PetHealthAPI.csproj",
         "packagesPath": "C:\\Users\\chand\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chand\\OneDrive\\Desktop\\Calc\\PetHealthAPI\\obj\\",
+        "outputPath": "C:\\Calc\\PetHealthAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -74,6 +74,10 @@
               "target": "Package",
               "version": "[8.0.10, )"
             },
+            "Microsoft.AspNetCore.ResponseCompression": {
+              "target": "Package",
+              "version": "[2.3.11, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -98,6 +102,10 @@
               "target": "Package",
               "version": "[10.0.9, )"
             },
+            "Microsoft.Extensions.Http.Polly": {
+              "target": "Package",
+              "version": "[10.0.9, )"
+            },
             "OpenTelemetry.Exporter.Console": {
               "target": "Package",
               "version": "[1.16.0, )"
@@ -105,6 +113,10 @@
             "OpenTelemetry.Exporter.OpenTelemetryProtocol": {
               "target": "Package",
               "version": "[1.16.0, )"
+            },
+            "OpenTelemetry.Exporter.Prometheus.AspNetCore": {
+              "target": "Package",
+              "version": "[1.16.0-beta.1, )"
             },
             "OpenTelemetry.Extensions.Hosting": {
               "target": "Package",

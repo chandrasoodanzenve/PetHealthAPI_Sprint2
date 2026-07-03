@@ -8,6 +8,8 @@ namespace PetHealthAPI.Services
         Task<IEnumerable<PetSummaryDto>> GetPetSummariesAsync();
 
         Task<Pet?> GetPetByIdAsync(int id);
+        Task<Pet?> GetPetByNameAndBreedAsync(string name, string breed);
+
         Task AddPetAsync(Pet pet);
         Task UpdatePetAsync(Pet pet);
         Task DeletePetAsync(int id);

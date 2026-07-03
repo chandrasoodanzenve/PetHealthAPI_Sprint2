@@ -4,12 +4,13 @@ using PetHealthAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Asp.Versioning;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.AspNetCore.OutputCaching;
+using Microsoft.EntityFrameworkCore; 
+using System.Text.Json; 
+using PetHealthAPI.Data;
 
 namespace PetHealthAPI.Controllers
 {
-    ///<summary>
-    /// Controller for managing pet records in the API.
-    ///</summary>
     [ApiVersion("1.0")] 
     [Route("api/v{version:apiVersion}/[controller]")]
     [Authorize]
@@ -18,17 +19,34 @@ namespace PetHealthAPI.Controllers
     public class PetsController : ControllerBase
     {
         private readonly IPetService _petService;
+        private readonly AppDbContext _context;
         private readonly IConfiguration _config;
         private readonly ILogger<PetsController> _logger;
+        private readonly IOutputCacheStore _cacheStore; 
+         private readonly IHttpClientFactory _httpClientFactory;
 
-        public PetsController(IPetService petService, IConfiguration config, ILogger<PetsController> logger)
+
+        public PetsController(
+            IPetService petService, 
+            AppDbContext context,
+            IConfiguration config, 
+            ILogger<PetsController> logger,
+             IOutputCacheStore cacheStore,
+             IHttpClientFactory httpClientFactory
+             )
         {
             _petService = petService;
+            _context = context;
             _config = config;
             _logger = logger;
+            _cacheStore = cacheStore; 
+            _httpClientFactory = httpClientFactory;
+
         }
-        /// <summary> Provides API metadata and current configuration details. </summary>
-        /// <returns>Returns a welcome message along with the application name, database provider, and current status of the API.</returns>
+        /// <summary>
+        /// Retrieves application information including name, database provider, and environment.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("info")]
         public IActionResult GetInfo()
         {
@@ -37,88 +55,200 @@ namespace PetHealthAPI.Controllers
             var envName = _config["EnvironmentName"] ?? "Development"; 
 
             return Ok(new { 
-        Message = $"Welcome to {appName}", 
-        Database = provider,
-        Environment = envName, 
-        Status = "Running"
-    });
+                Message = $"Welcome to {appName}", 
+                Database = provider,
+                Environment = envName, 
+                Status = "Running"
+            });
         }
-        /// <summary> Retrieves a specific pet record by its unique ID. </summary>
-        /// <param name="id">The unique identifier of the pet to retrieve.</param>
-        /// <returns>Returns the pet details if found; otherwise, returns a 404 Not Found response.</returns>
+        /// <summary>
+        /// Retrieves a pet by its ID with caching and performance monitoring.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
+        [OutputCache(PolicyName = "PetCachePolicy")] 
         public async Task<ActionResult<ApiResponse<Pet>>> GetById(int id)
         {
             var pet = await _petService.GetPetByIdAsync(id);
             if (pet == null) return NotFound(ApiResponse<Pet>.Failure("Pet not found"));
             return Ok(ApiResponse<Pet>.Success(pet, "Pet details retrieved successfully."));
         }
-        /// <summary> Retrieves a paginated list of pets. </summary>
-        /// <param name="pageNumber">The page number to retrieve (default is 1).</param>
-        /// <param name="pageSize">The number of records per page (default is 10).</param>
-        /// <returns>Returns a paginated list of pets along with the total count and time taken to retrieve the data.</returns>
-        [HttpGet]
-        public async Task<ActionResult<ApiResponse<IEnumerable<Pet>>>> Get(int pageNumber = 1, int pageSize = 10)
-            {
-                // throw new Exception("Simulated exception for testing global error handling.");
-                var watch = System.Diagnostics.Stopwatch.StartNew(); 
-                    // await Task.Delay(600); 
-    
-                var (pets, totalCount) = await _petService.GetAllPetsAsync(pageNumber, pageSize);
-    
-                watch.Stop(); 
-                if (watch.ElapsedMilliseconds > 500) 
-                    {
-                        _logger.LogCritical("ALERT: High Latency detected on GetPets! Time: {Duration}ms", watch.ElapsedMilliseconds);
-                    }
-                _logger.LogInformation($"Retrieving pets page {pageNumber} took {watch.ElapsedMilliseconds}ms");
-
-                return Ok(ApiResponse<IEnumerable<Pet>>.Success(pets, $"Total Pets: {totalCount}. Displaying page {pageNumber}. Time taken: {watch.ElapsedMilliseconds}ms"));
-            }
-            /// <summary> Retrieves lightweight name and breed summaries of all pets. </summary>
-            /// <returns>Returns a list of pet summaries containing only the name and breed of each pet.</returns>
-        [HttpGet("summaries")]
-        public async Task<ActionResult<ApiResponse<IEnumerable<PetSummaryDto>>>> GetSummaries()
-            {
-                _logger.LogInformation("Retrieving light-weight pet summaries.");
-                var summaries = await _petService.GetPetSummariesAsync();
-                return Ok(ApiResponse<IEnumerable<PetSummaryDto>>.Success(summaries, "Pet summaries retrieved successfully."));
-            }
-        /// <summary> Adds a new pet record to the database. </summary>
-        /// <param name="pet"></param>
+        /// <summary>
+        /// Retrieves a paginated list of pets with performance monitoring and logging.
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
         /// <returns></returns>
-        [HttpPost]
-        public async Task<ActionResult<ApiResponse<Pet>>> Post([FromBody] Pet pet)
+        [HttpGet]
+        [OutputCache(PolicyName = "PetCachePolicy")] 
+        public async Task<ActionResult<ApiResponse<IEnumerable<Pet>>>> Get(int pageNumber = 1, int pageSize = 10)
         {
-            await _petService.AddPetAsync(pet);
-            return CreatedAtAction(nameof(GetById), new { id = pet.Id }, ApiResponse<Pet>.Success(pet, "Pet added successfully!"));
+            var watch = System.Diagnostics.Stopwatch.StartNew(); 
+            
+            var (pets, totalCount) = await _petService.GetAllPetsAsync(pageNumber, pageSize);
+    
+            watch.Stop(); 
+            if (watch.ElapsedMilliseconds > 500) 
+            {
+                _logger.LogCritical("ALERT: High Latency detected on GetPets! Time: {Duration}ms", watch.ElapsedMilliseconds);
+            }
+            
+            return Ok(ApiResponse<IEnumerable<Pet>>.Success(pets, $"Total Pets: {totalCount}. Time taken: {watch.ElapsedMilliseconds}ms"));
         }
-        ///<summary> Updates an existing pet record in the database. </summary>
-        /// <param name="id">The unique identifier of the pet to update.</param>
-        /// <param name="updatedPet">The updated pet object containing new values.</param>
-        /// <returns>Returns the updated pet details if successful; otherwise, returns a 404 Not Found response if the pet does not exist.</returns>
+        /// <summary>
+        /// Retrieves light-weight summaries of all pets with caching and performance monitoring.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("summaries")]
+        [OutputCache(PolicyName = "PetCachePolicy")] 
+        public async Task<ActionResult<ApiResponse<IEnumerable<PetSummaryDto>>>> GetSummaries()
+        {
+            _logger.LogInformation("Retrieving light-weight pet summaries.");
+            var summaries = await _petService.GetPetSummariesAsync();
+            return Ok(ApiResponse<IEnumerable<PetSummaryDto>>.Success(summaries, "Pet summaries retrieved successfully."));
+        }
+/// <summary>
+        /// Adds a new pet to the system with idempotency support.
+/// </summary>
+/// <param name="pet"></param>
+/// <param name="idempotencyKey"></param>
+/// <returns></returns>
+[HttpPost]
+[DisableRateLimiting]
+public async Task<IActionResult> Post([FromBody] Pet pet, [FromHeader(Name = "X-Idempotency-Key")] string? idempotencyKey)
+{
+    if (string.IsNullOrEmpty(idempotencyKey))
+    {
+        return BadRequest(ApiResponse<object>.Failure("X-Idempotency-Key header is missing."));
+    }
+    var existingRequest = await _context.IdempotentRequests
+        .FirstOrDefaultAsync(r => r.Key == idempotencyKey);
+
+    if (existingRequest != null)
+    {
+        _logger.LogInformation("Idempotency: Duplicate request detected for key {Key}", idempotencyKey);
+        return Ok(JsonSerializer.Deserialize<ApiResponse<Pet>>(existingRequest.Result));
+    }
+
+    // 2. Process the request if new
+    await _petService.AddPetAsync(pet);
+
+    // ---  AUDIT LOG START ---
+    _logger.LogInformation("AUDIT: User {User} CREATED Pet {PetId} ({PetName}) at {Time}. CorrelationID: {CorrelationId}", 
+        User.Identity?.Name ?? "Admin", 
+        pet.Id,
+        pet.Name,
+        DateTime.UtcNow,
+        HttpContext.Items["CorrelationId"] ?? "N/A");
+
+    // 3. Store the result for future retries
+    var response = ApiResponse<Pet>.Success(pet, "Pet added successfully!");
+    var idempotentRequest = new IdempotentRequest
+    {
+        Id = Guid.NewGuid(),
+        Key = idempotencyKey,
+        Result = JsonSerializer.Serialize(response),
+        CreatedAt = DateTime.UtcNow
+    };
+
+    _context.IdempotentRequests.Add(idempotentRequest);
+    await _context.SaveChangesAsync();
+
+    return CreatedAtAction(nameof(GetById), new { id = pet.Id }, response);
+}
+        ///<summary>
+        /// Updates an existing pet.
+        ///</summary>
+        ///<param name="id">The ID of the pet to update.</param>
+        ///<param name="updatedPet">The updated pet object.</param>
+        ///<returns>The updated pet object.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] Pet updatedPet)
         {
             var pet = await _petService.GetPetByIdAsync(id);
             if (pet == null) return NotFound(ApiResponse<Pet>.Failure("Pet not found"));
+            
             pet.Name = updatedPet.Name;
             pet.Breed = updatedPet.Breed;
             pet.HealthScore = updatedPet.HealthScore;
+            
             await _petService.UpdatePetAsync(pet);
+            await _cacheStore.EvictByTagAsync("pets_tag", default);
+            
             return Ok(ApiResponse<Pet>.Success(pet, "Pet updated successfully!"));
         }
-        /// <summary> Deletes a specific pet record from the system (Admin only). </summary>
-        /// <param name="id">The unique identifier of the pet to delete.</param>
-        /// <returns>Returns a success message if the pet is deleted; otherwise, returns a 404 Not Found response if the pet does not exist.</returns>
+        /// <summary>
+        /// Deletes a pet by ID. Only accessible to Admin users.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var pet = await _petService.GetPetByIdAsync(id);
             if (pet == null) return NotFound(ApiResponse<Pet>.Failure("Pet not found"));
+            
             await _petService.DeletePetAsync(id);
+            // --- AUDIT LOG START ---
+            _logger.LogWarning("AUDIT: User {User} DELETED Pet {Id} at {Time}. CorrelationID: {CorrelationId}", 
+                User.Identity?.Name ?? "Admin", 
+                id, 
+                DateTime.UtcNow,
+                HttpContext.Items["CorrelationId"] ?? "N/A");
+
+            await _cacheStore.EvictByTagAsync("pets_tag", default);
+            
             return Ok(ApiResponse<string>.Success(null!, "Pet deleted successfully!"));
         }
+        /// <summary>
+        /// Admin-only endpoint to retrieve dashboard information.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("admin/dashboard")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult GetDashboard()
+        {
+            return Ok(new {
+                Status = "Healthy",
+                HealthCheckUrl = "/health",
+                MetricsUrl = "/metrics",
+                TracingUrl = "http://localhost:16686",
+                LoggingPath = "Logs/petapi_log.txt",
+                BackupStatus = "Daily at 02:00 AM"
+            });
+        }
+         /// <summary>
+        /// [Test Only] Fault Injection endpoint to validate Polly Resilience .
+        /// </summary>
+        [HttpGet("test-resilience")]
+[AllowAnonymous]
+[DisableRateLimiting]
+public IActionResult TestResilience()
+{
+    _logger.LogWarning("TestResilience hit - Returning 500 error for Polly test.");
+    return StatusCode(500, "FORCED ERROR"); 
+}
+        /// <summary>
+        /// Verifies the resilience of the Polly policies.
+        /// </summary>
+        /// <returns></returns>
+   [HttpGet("verify-polly")]
+[AllowAnonymous]
+[DisableRateLimiting]
+public async Task<IActionResult> VerifyPolly()
+{
+    var client = _httpClientFactory.CreateClient("ResilientClient");
+    
+    _logger.LogInformation("Sending request via ResilientClient...");
+    
+    var response = await client.GetAsync("http://localhost:5082/api/v1/Pets/test-resilience");
+
+    if (response.IsSuccessStatusCode)
+        return Ok("Polly successfully handled retries and passed!");
+    
+    return StatusCode(500, "Polly exhausted all retries.");
+}
     }
 }

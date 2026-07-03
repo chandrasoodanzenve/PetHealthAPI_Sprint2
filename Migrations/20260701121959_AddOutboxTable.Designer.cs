@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetHealthAPI.Data;
 
@@ -11,9 +12,11 @@ using PetHealthAPI.Data;
 namespace PetHealthAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260701121959_AddOutboxTable")]
+    partial class AddOutboxTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,20 +25,14 @@ namespace PetHealthAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("OutboxMessage", b =>
+            modelBuilder.Entity("PetHealthAPI.Models.OutboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("AttemptCount")
-                        .HasColumnType("int");
-
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Error")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("OccurredOnUtc")
@@ -51,28 +48,6 @@ namespace PetHealthAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("OutboxMessages");
-                });
-
-            modelBuilder.Entity("PetHealthAPI.Models.IdempotentRequest", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Result")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("IdempotentRequests");
                 });
 
             modelBuilder.Entity("PetHealthAPI.Models.Pet", b =>

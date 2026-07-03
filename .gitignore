@@ -10,5 +10,13 @@ PetPulse.db
 PetPulse.db-journal
 appsettings.Development.json
 
+#  Terraform files
+terraform/terraform.exe
+terraform/.terraform/
+terraform/*.tfstate*
+
 *.log
 publish/
+
+*.exe
+Logs/

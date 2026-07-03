@@ -63,5 +63,10 @@ namespace PetHealthAPI.BackgroundServices
                 await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
             }
         }
+        public override async Task StopAsync(CancellationToken cancellationToken)
+{
+    _logger.LogWarning("Graceful shutdown initiated. Saving state and stopping background service...");
+    await base.StopAsync(cancellationToken);
+}
     }
 }

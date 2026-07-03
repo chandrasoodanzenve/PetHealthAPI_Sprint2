@@ -22,6 +22,7 @@ public class Pet
     /// Breed of the pet. This field is required.
     /// </summary>
     [Required]
+    [StringLength(200)]
     public string Breed { get; set; } = string.Empty;
 
     /// <summary>

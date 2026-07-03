@@ -15,7 +15,8 @@ using OpenTelemetry.Trace;
 using OpenTelemetry.Metrics;
 using Microsoft.AspNetCore.RateLimiting; 
 using System.Threading.RateLimiting;
-
+using Polly;
+using Polly.Extensions.Http;
 // 1. Serilog Configuration
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -25,6 +26,46 @@ Log.Logger = new LoggerConfiguration()
 var builder = WebApplication.CreateBuilder(args);
 var serviceName = "PetHealthAPI";
 var serviceVersion = "1.0.0";
+// 1. Retry Policy with Logging
+var retryPolicy = HttpPolicyExtensions
+    .HandleTransientHttpError()
+    .WaitAndRetryAsync(3, 
+        retryAttempt => TimeSpan.FromSeconds(2),
+        onRetry: (outcome, timespan, retryCount, context) =>
+        {
+            Console.WriteLine($"\n[POLLY DEBUG] ---> RETRY ATTEMPT: {retryCount} <---");
+            Log.Warning("!!! POLLY RETRY TRIGGERED !!! Attempt: {RetryCount} | Reason: {Reason}", 
+                retryCount, outcome.Result?.StatusCode);
+        });
+
+// 2. Circuit Breaker
+var circuitBreakerPolicy = HttpPolicyExtensions
+    .HandleTransientHttpError()
+    .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30));
+
+// 3. Timeout
+var timeoutPolicy = Policy.TimeoutAsync<HttpResponseMessage>(5);
+
+// 4. Bulkhead
+var bulkheadPolicy = Policy.BulkheadAsync<HttpResponseMessage>(2, 10);
+
+// 5. Fallback 
+var fallbackPolicy = HttpPolicyExtensions
+    .HandleTransientHttpError()
+    .FallbackAsync(new HttpResponseMessage(System.Net.HttpStatusCode.ServiceUnavailable)
+    {
+        Content = new StringContent("The service is currently busy. Please try again later (Polly Fallback).")
+    });
+
+// --- Register ResilientClient ONLY ONCE ---
+builder.Services.AddHttpClient("ResilientClient")
+    .AddPolicyHandler(fallbackPolicy) // 1. Outer: Catch failures
+    .AddPolicyHandler(retryPolicy)    // 2. Middle: Try again
+    .AddPolicyHandler(circuitBreakerPolicy) // 3. Inner: Break if too many errors
+    .AddPolicyHandler(timeoutPolicy)   // 4. Inner: Kill slow requests
+    .AddPolicyHandler(bulkheadPolicy); // 5. Inner: Limit resources
+
+builder.Services.AddHostedService<PetHealthAPI.BackgroundServices.OutboxProcessor>();
 
 builder.Services.AddRateLimiter(options =>
 {
@@ -67,7 +108,8 @@ builder.Services.AddOpenTelemetry()
         metricsProviderBuilder
             .AddAspNetCoreInstrumentation()
             .AddMeter("PetHealthAPI.Metrics")
-            .AddConsoleExporter();
+            .AddPrometheusExporter();
+            // .AddConsoleExporter();
     });
 builder.Host.UseSerilog(); 
 
@@ -198,6 +240,18 @@ builder.Services.AddAuthentication(options =>
     };
 });
 builder.Services.AddAuthorization();
+// 1. Response Compression 
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+});
+
+// 2. Output Caching 
+builder.Services.AddOutputCache(options =>
+{
+    options.AddPolicy("PetCachePolicy", builder => 
+        builder.Expire(TimeSpan.FromMinutes(5)).Tag("pets_tag"));
+});
 var app = builder.Build();
 // Middleware Order
 app.UseMiddleware<PetHealthAPI.Middleware.ExceptionMiddleware>();
@@ -221,6 +275,7 @@ app.Use(async (context, next) =>
     }
     await next();
 });
+app.UseResponseCompression();
 app.UseRateLimiter();
 
 if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
@@ -234,6 +289,8 @@ if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
 }
 app.UseAuthentication(); 
 app.UseAuthorization();  
+app.UseOutputCache(); 
+app.UseOpenTelemetryPrometheusScrapingEndpoint();
 app.MapControllers();
 app.MapHealthChecks("/health");
 try

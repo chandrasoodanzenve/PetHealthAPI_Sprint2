@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: petapi-config
+data:
+  ASPNETCORE_ENVIRONMENT: "Production"
+  DatabaseProvider: "SqlServer"
