@@ -2,17 +2,17 @@
 resource "azurerm_resource_group" "rg" {
   name     = "PetHealth-${var.environment}-RG"
   location = var.location
-  
+
   # Enterprise Governance Tags
   tags = {
-    Project           = "PetHealthAPI"
-    Environment       = var.environment
-    Owner             = "Chandrasoodan"
-    Compliance        = "Enterprise-Standard"
-    CostCenter        = "Internal-R&D"
-    ManagedBy         = "Terraform-IaC"
+    Project                = "PetHealthAPI"
+    Environment            = var.environment
+    Owner                  = "Chandrasoodan"
+    Compliance             = "Enterprise-Standard"
+    CostCenter             = "Internal-R&D"
+    ManagedBy              = "Terraform-IaC"
     LastArchitectureReview = "2026-07-03"
-    Role              = "Primary"
+    Role                   = "Primary"
   }
 }
 
@@ -28,12 +28,12 @@ resource "azurerm_virtual_network" "vnet" {
 
 # Redis Cache
 resource "azurerm_redis_cache" "redis" {
-  name                = "pethealth-cache-${lower(var.environment)}"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  capacity            = 0
-  family              = "C"
-  sku_name            = "Basic"
+  name                 = "pethealth-cache-${lower(var.environment)}"
+  location             = azurerm_resource_group.rg.location
+  resource_group_name  = azurerm_resource_group.rg.name
+  capacity             = 0
+  family               = "C"
+  sku_name             = "Basic"
   non_ssl_port_enabled = false
 }
 
@@ -68,7 +68,7 @@ resource "azurerm_mssql_database" "db" {
   }
 
   long_term_retention_policy {
-    weekly_retention  = "P4W" # 4 weeks
+    weekly_retention  = "P4W"  # 4 weeks
     monthly_retention = "P12M" # 12 months
   }
 }
@@ -171,11 +171,11 @@ resource "azurerm_traffic_manager_profile" "tm" {
 }
 #  Geo-Redundant Storage (GRS) for Data Replication
 resource "azurerm_storage_account" "pet_storage" {
-  name                     = "pethealthstore${lower(var.environment)}"
-  resource_group_name      = azurerm_resource_group.rg.name
-  location                 = azurerm_resource_group.rg.location
-  account_tier             = "Standard"
-  
+  name                = "pethealthstore${lower(var.environment)}"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+  account_tier        = "Standard"
+
   # Cross-region replication for storage
   account_replication_type = "GRS" # Geo-Redundant Storage (Auto-syncs to West US)
 
