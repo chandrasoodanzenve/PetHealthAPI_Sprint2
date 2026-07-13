@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics.Metrics; 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace PetHealthAPI.Tests
 {
@@ -23,6 +24,8 @@ namespace PetHealthAPI.Tests
             var mockRepo = new Mock<IPetRepository>();
             var mockCache = new Mock<IDistributedCache>(); 
             var mockMeterFactory = new Mock<IMeterFactory>();
+                var mockLogger = new Mock<ILogger<PetService>>(); 
+
             
             // AppDbContext mock 
             var options = new DbContextOptionsBuilder<AppDbContext>().Options;
@@ -51,7 +54,10 @@ namespace PetHealthAPI.Tests
                 mockRepo.Object, 
                 mockCache.Object, 
                 mockMeterFactory.Object, 
-                mockContext.Object);
+                mockContext.Object,
+                mockLogger.Object,
+                new Mock<IHttpClientFactory>().Object
+            );
 
             // 6. Act
             var result = await service.GetAllPetsAsync(1, 10);

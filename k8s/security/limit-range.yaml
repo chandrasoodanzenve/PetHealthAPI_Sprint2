@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: api-limit-range
+  namespace: pethealth-prod
+spec:
+  limits:
+    - default: # Default limit if not specified
+        cpu: 500m
+        memory: 256Mi
+      defaultRequest: # Default request if not specified
+        cpu: 100m
+        memory: 128Mi
+      type: Container

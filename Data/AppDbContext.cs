@@ -10,6 +10,7 @@ namespace PetHealthAPI.Data
         public DbSet<User> Users { get; set; }
         public DbSet<OutboxMessage> OutboxMessages { get; set; }
         public DbSet<IdempotentRequest> IdempotentRequests { get; set; }
+        public DbSet<PetEvent> PetEvents { get; set; }
 
     }
 }

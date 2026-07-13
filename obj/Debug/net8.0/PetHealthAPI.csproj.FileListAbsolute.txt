@@ -453,3 +453,7 @@ C:\Calc\PetHealthAPI\bin\Debug\net8.0\Microsoft.Extensions.Options.Configuration
 C:\Calc\PetHealthAPI\bin\Debug\net8.0\Polly.dll
 C:\Calc\PetHealthAPI\bin\Debug\net8.0\Polly.Extensions.Http.dll
 C:\Calc\PetHealthAPI\bin\Debug\net8.0\OpenTelemetry.Exporter.Prometheus.AspNetCore.dll
+C:\Calc\PetHealthAPI\bin\Debug\net8.0\OpenTelemetry.Instrumentation.Process.dll
+C:\Calc\PetHealthAPI\bin\Debug\net8.0\OpenTelemetry.Instrumentation.Runtime.dll
+C:\Calc\PetHealthAPI\bin\Debug\net8.0\Serilog.Enrichers.Thread.dll
+C:\Calc\PetHealthAPI\bin\Debug\net8.0\grafana-dashboard.json

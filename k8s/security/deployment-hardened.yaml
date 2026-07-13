@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pethealthapi-hardened
+  namespace: pethealth-prod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pethealthapi
+  template:
+    metadata:
+      labels:
+        app: pethealthapi
+    spec:
+      serviceAccountName: pethealth-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: petapi
+          image: pethealthapi:latest
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "64Mi"
+            limits:
+              cpu: "500m"
+              memory: "128Mi"
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: petapi-db-secret
+                  key: password

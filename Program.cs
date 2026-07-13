@@ -13,13 +13,18 @@ using Asp.Versioning;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using OpenTelemetry.Metrics;
+using OpenTelemetry.Instrumentation.AspNetCore;
 using Microsoft.AspNetCore.RateLimiting; 
 using System.Threading.RateLimiting;
 using Polly;
 using Polly.Extensions.Http;
 // 1. Serilog Configuration
 Log.Logger = new LoggerConfiguration()
-    .WriteTo.Console()
+    .Enrich.WithProperty("Service", "PetHealthAPI")
+    .MinimumLevel.Information()
+    .Enrich.FromLogContext() 
+    .Enrich.WithThreadId()
+    .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}[TraceID: {TraceId}]{NewLine}{Exception}") 
     .WriteTo.File("Logs/petapi_log.txt", rollingInterval: RollingInterval.Day) 
     .CreateLogger();
 
@@ -93,24 +98,29 @@ builder.Services.AddOpenTelemetry()
     {
         tracerProviderBuilder
             .AddSource(serviceName)
+            .AddSource("PetHealthAPI.BackgroundWorker")
             .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(serviceName, serviceVersion))
-            .AddAspNetCoreInstrumentation() 
+            .AddAspNetCoreInstrumentation(o => o.RecordException = true) 
             .AddHttpClientInstrumentation()
             .AddSqlClientInstrumentation()  
-            .AddConsoleExporter()  
-            .AddOtlpExporter(options =>
-                {
-                     options.Endpoint = new Uri("http://localhost:4317"); 
-                });    
+            // .AddConsoleExporter()  
+            .AddOtlpExporter((OpenTelemetry.Exporter.OtlpExporterOptions options) => 
+            {
+                options.Endpoint = new Uri("http://localhost:4317");
+                options.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.Grpc;
+            }); 
     })
     .WithMetrics(metricsProviderBuilder =>
     {
         metricsProviderBuilder
             .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation()
+            .AddRuntimeInstrumentation() 
+            .AddProcessInstrumentation() 
             .AddMeter("PetHealthAPI.Metrics")
             .AddPrometheusExporter();
-            // .AddConsoleExporter();
     });
+
 builder.Host.UseSerilog(); 
 
 // 1. Database Configuration
@@ -306,4 +316,10 @@ finally
 {
     Log.CloseAndFlush();
 }
-public partial class Program { }
+public partial class Program
+{
+    private void AddOtlpExporter(Action<object> value)
+    {
+        throw new NotImplementedException();
+    }
+}

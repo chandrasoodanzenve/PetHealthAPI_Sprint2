@@ -13,5 +13,8 @@ namespace PetHealthAPI.Services
         Task AddPetAsync(Pet pet);
         Task UpdatePetAsync(Pet pet);
         Task DeletePetAsync(int id);
+        Task ProcessPetHealthWorkflow(int petId, string newStatus);
+        Task RebuildPetStateFromEvents(int petId);
+
     }
 }
