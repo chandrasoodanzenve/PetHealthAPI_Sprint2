@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: api-allow-db-only
+  namespace: pethealth-prod
+spec:
+  podSelector:
+    matchLabels:
+      app: pethealthapi
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: sqlserver 

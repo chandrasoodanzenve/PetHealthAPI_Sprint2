@@ -1,6 +1,8 @@
 using System.Net;
 using System.Text.Json;
 using PetHealthAPI.Models;
+using Serilog;
+using System.Diagnostics;
 
 namespace PetHealthAPI.Middleware
 {
@@ -17,6 +19,8 @@ namespace PetHealthAPI.Middleware
 
         public async Task InvokeAsync(HttpContext context)
         {
+            var watch = Stopwatch.StartNew();
+
             try
             {
                 await _next(context);
@@ -29,6 +33,13 @@ namespace PetHealthAPI.Middleware
                 _logger.LogError(ex, "Error occurred ! CorrelationID: {CorrelationId}. Message: {Message}", correlationId, ex.Message);
 
                 await HandleExceptionAsync(context, ex, correlationId);
+            }
+            finally
+            {
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                var endpoint = context.Request.Path;
+                AnomalyDetection(elapsedMs, endpoint);
             }
         }
 
@@ -43,6 +54,22 @@ namespace PetHealthAPI.Middleware
             );
 
             return context.Response.WriteAsync(JsonSerializer.Serialize(response));
+        }
+        private static DateTime _lastAlertTime = DateTime.MinValue;
+        public static void AnomalyDetection(long elapsedMs, string endpoint)
+        {
+            const int P95_Threshold = 500; 
+            
+            if (elapsedMs > P95_Threshold)
+            {
+                if ((DateTime.UtcNow - _lastAlertTime).TotalSeconds > 60)
+                {
+                    Log.Error("!!! ANOMALY DETECTED !!! Endpoint: {Endpoint} | Latency: {Duration}ms | Status: P95 Violated", 
+                        endpoint, elapsedMs);
+                    
+                    _lastAlertTime = DateTime.UtcNow;
+                }
+            }
         }
     }
 }

@@ -31,7 +31,6 @@ namespace PetHealthAPI.Repositories
         return await _context.Pets
         .AsNoTracking()
         .AsSplitQuery() 
-        .Include(p => p.Name) 
         .FirstOrDefaultAsync(p => p.Id == id);
 }
 public async Task<Pet?> GetPetByNameAndBreedAsync(string name, string breed)

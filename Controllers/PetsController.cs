@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore; 
 using System.Text.Json; 
 using PetHealthAPI.Data;
+using System.Diagnostics.Metrics;
+using PetHealthAPI.Middleware;
 
 namespace PetHealthAPI.Controllers
 {
@@ -48,8 +50,12 @@ namespace PetHealthAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("info")]
+        [AllowAnonymous]
         public IActionResult GetInfo()
         {
+            var meter = new Meter("PetHealthAPI.Metrics");
+            var counter = meter.CreateCounter<int>("api_info_hits_total");
+            counter.Add(1);
             var appName = _config["PetSettings:AppName"] ?? "Pet Pulse API";
             var provider = _config["DatabaseProvider"] ?? "Not Set";
             var envName = _config["EnvironmentName"] ?? "Development"; 
@@ -92,6 +98,7 @@ namespace PetHealthAPI.Controllers
             if (watch.ElapsedMilliseconds > 500) 
             {
                 _logger.LogCritical("ALERT: High Latency detected on GetPets! Time: {Duration}ms", watch.ElapsedMilliseconds);
+                ExceptionMiddleware.AnomalyDetection(watch.ElapsedMilliseconds, "GET /api/v1/Pets");
             }
             
             return Ok(ApiResponse<IEnumerable<Pet>>.Success(pets, $"Total Pets: {totalCount}. Time taken: {watch.ElapsedMilliseconds}ms"));
@@ -249,6 +256,53 @@ public async Task<IActionResult> VerifyPolly()
         return Ok("Polly successfully handled retries and passed!");
     
     return StatusCode(500, "Polly exhausted all retries.");
+}
+/// <summary>
+/// Retrieves the event history for a specific pet, demonstrating CQRS and Event Sourcing.
+/// </summary>
+/// <param name="id"></param>
+/// <returns></returns>
+[HttpGet("{id}/history")]
+[AllowAnonymous]
+public async Task<IActionResult> GetPetHistory(int id)
+{
+    _logger.LogInformation("CQRS: Querying event history for Pet {Id}", id);
+    var events = await _context.PetEvents
+        .Where(e => e.PetId == id)
+        .OrderByDescending(e => e.Timestamp)
+        .ToListAsync();
+        
+    return Ok(ApiResponse<IEnumerable<PetEvent>>.Success(events, "Historical projection retrieved."));
+}
+
+/// <summary>
+/// Endpoint to trigger a Saga workflow for a specific pet.
+/// </summary>
+/// <param name="id"></param>
+/// <param name="status"></param>
+/// <returns></returns>
+[HttpPost("{id}/workflow")]
+[AllowAnonymous]
+public async Task<IActionResult> TriggerHealthWorkflow(int id, [FromQuery] string status)
+{
+    _logger.LogInformation("COMMAND: Triggering Saga Workflow for Pet {Id}", id);
+    
+    await _petService.ProcessPetHealthWorkflow(id, status);
+    
+    return Ok(ApiResponse<string>.Success(null!, "Workflow processed. Check logs for Saga status."));
+}
+
+/// <summary>
+/// Endpoint to replay events for a specific pet and rebuild its state.
+/// </summary>
+/// <param name="id"></param>
+/// <returns></returns>
+[HttpPost("{id}/replay")]
+[AllowAnonymous]
+public async Task<IActionResult> ReplayEvents(int id)
+{
+    await _petService.RebuildPetStateFromEvents(id);
+    return Ok(ApiResponse<string>.Success(null!, "Event replay completed. State rebuilt."));
 }
     }
 }

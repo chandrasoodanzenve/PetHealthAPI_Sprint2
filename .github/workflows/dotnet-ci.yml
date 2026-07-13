@@ -45,3 +45,10 @@ jobs:
       run: |
         echo "Build or Test failed! Triggering automatic rollback to last stable version..."
         echo "Rollback initiated successfully."
+    - name: Run Trivy Vulnerability Scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'pethealthapi:${{ github.run_number }}'
+          format: 'table'
+          exit-code: '1' 
+          severity: 'CRITICAL,HIGH'
