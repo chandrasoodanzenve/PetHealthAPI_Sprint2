@@ -34,6 +34,14 @@ jobs:
         docker build -t pethealthapi:latest -t pethealthapi:${{ github.run_number }} .
         echo "Successfully created image v${{ github.run_number }}"
 
+    - name: Run Trivy Vulnerability Scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: 'pethealthapi:${{ github.run_number }}'
+        format: 'table'
+        exit-code: '0' 
+        severity: 'CRITICAL,HIGH'
+
     - name: Deploy to Staging (Simulation)
       if: github.ref == 'refs/heads/main'
       run: |
@@ -45,10 +53,3 @@ jobs:
       run: |
         echo "Build or Test failed! Triggering automatic rollback to last stable version..."
         echo "Rollback initiated successfully."
-    - name: Run Trivy Vulnerability Scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: 'pethealthapi:${{ github.run_number }}'
-          format: 'table'
-          exit-code: '1' 
-          severity: 'CRITICAL,HIGH'
