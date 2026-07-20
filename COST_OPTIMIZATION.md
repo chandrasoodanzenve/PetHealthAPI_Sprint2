@@ -1,4 +1,4 @@
-# 💰 PetHealth Pro - Cloud Cost Optimization Report
+# PetHealth Pro - Cloud Cost Optimization Report
 
 ## 1. Optimized Resource Tiers
 

@@ -5,10 +5,10 @@ metadata:
   namespace: pethealth-prod
 spec:
   limits:
-    - default: # Default limit if not specified
+    - default:
         cpu: 500m
         memory: 256Mi
-      defaultRequest: # Default request if not specified
+      defaultRequest: 
         cpu: 100m
         memory: 128Mi
       type: Container

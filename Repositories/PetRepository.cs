@@ -14,7 +14,6 @@ namespace PetHealthAPI.Repositories
         public async Task<(IEnumerable<Pet> Pets, int TotalCount)> GetPagedAsync(int pageNumber, int pageSize)
         {
             var query = _context.Pets.AsNoTracking();
-            // Performance Fix: Added AsNoTracking and Tagging
             var totalCount = await _context.Pets.CountAsync();
             var pets = await _context.Pets
                 .AsNoTracking() 

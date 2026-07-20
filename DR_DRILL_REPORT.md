@@ -1,4 +1,4 @@
-# 📉 Day 34: Disaster Recovery (DR) Drill Report
+# Day 34: Disaster Recovery (DR) Drill Report
 
 ## 1. Drill Scenario
 

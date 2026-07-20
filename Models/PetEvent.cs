@@ -1,6 +1,5 @@
 namespace PetHealthAPI.Models
 {
-    // 1. Event Sourcing Model
     public class PetEvent
     {
         public Guid Id { get; set; }
@@ -11,7 +10,6 @@ namespace PetHealthAPI.Models
         public string Version { get; set; } = "v1"; 
     }
 
-    // 2. CQRS Read Model (DTO)
     public class PetReadModel
     {
         public int Id { get; set; }

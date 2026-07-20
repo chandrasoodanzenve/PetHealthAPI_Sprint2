@@ -1,4 +1,4 @@
-# 🏛️ PetHealth Pro - Architecture Decision Log (ADL)
+# PetHealth Pro - Architecture Decision Log (ADL)
 
 ## Decision 1: Clean Architecture & Repository Pattern
 

@@ -1,4 +1,4 @@
-# 🧪 Chaos Engineering Experiment Results
+# Chaos Engineering Experiment Results
 
 ## Experiment 1: SQL Connection Latency
 

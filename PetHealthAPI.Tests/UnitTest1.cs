@@ -20,26 +20,20 @@ namespace PetHealthAPI.Tests
         [Fact]
         public async Task GetAllPetsAsync_ShouldReturnAllPets()
         {
-            // 1. Mocks 
             var mockRepo = new Mock<IPetRepository>();
             var mockCache = new Mock<IDistributedCache>(); 
             var mockMeterFactory = new Mock<IMeterFactory>();
                 var mockLogger = new Mock<ILogger<PetService>>(); 
 
-            
-            // AppDbContext mock 
             var options = new DbContextOptionsBuilder<AppDbContext>().Options;
             var mockContext = new Mock<AppDbContext>(options);
 
-            // 2. Metrics Setup
             mockMeterFactory.Setup(m => m.Create(It.IsAny<MeterOptions>()))
                            .Returns(new Meter("PetHealthAPI.Metrics"));
 
-            // 3. Cache Setup 
             mockCache.Setup(x => x.GetAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                      .ReturnsAsync((byte[]?)null);
 
-            // 4. Data Setup
             var fakePets = new List<Pet>
             {
                 new Pet { Id = 1, Name = "Simba", Breed = "Dog", HealthScore = 90 },
@@ -48,8 +42,6 @@ namespace PetHealthAPI.Tests
 
             mockRepo.Setup(repo => repo.GetPagedAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .ReturnsAsync((fakePets, 2));
-
-            // 5. Service creation 
             var service = new PetService(
                 mockRepo.Object, 
                 mockCache.Object, 
@@ -59,10 +51,8 @@ namespace PetHealthAPI.Tests
                 new Mock<IHttpClientFactory>().Object
             );
 
-            // 6. Act
             var result = await service.GetAllPetsAsync(1, 10);
 
-            // 7. Assert
             Assert.NotNull(result.Pets);
             Assert.Equal(2, result.Pets.Count());
             Assert.Equal("Simba", result.Pets.First().Name);

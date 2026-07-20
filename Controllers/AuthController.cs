@@ -67,7 +67,6 @@ public async Task<IActionResult> Refresh(string refreshToken)
     var newJwtToken = GenerateJwtToken(user);
     var newRefreshToken = GenerateRefreshToken();
 
-    // Rotation
     user.RefreshToken = newRefreshToken;
     await _context.SaveChangesAsync();
 
@@ -86,7 +85,6 @@ public async Task<IActionResult> Revoke()
     
     if (user == null) return BadRequest();
 
-    // Revocation
     user.RefreshToken = null;
     await _context.SaveChangesAsync();
 

@@ -21,7 +21,6 @@ spec:
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: Development
-        # Task: Readiness and Liveness Probes
         livenessProbe:
           httpGet:
             path: /health

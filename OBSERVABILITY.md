@@ -1,4 +1,4 @@
-# 🔍 PetHealth Pro - Observability & Diagnostics Manual
+#  PetHealth Pro - Observability & Diagnostics Manual
 
 ## 1. Tracing Strategy
 

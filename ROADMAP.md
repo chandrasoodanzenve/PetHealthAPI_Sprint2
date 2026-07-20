@@ -1,4 +1,4 @@
-# 🗺️ PetHealth Pro - Engineering Roadmap & Tech Debt
+#  PetHealth Pro - Engineering Roadmap & Tech Debt
 
 ## 1. Technical Debt Review
 

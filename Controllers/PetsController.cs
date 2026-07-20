@@ -13,6 +13,9 @@ using PetHealthAPI.Middleware;
 
 namespace PetHealthAPI.Controllers
 {
+    /// <summary>
+    /// Controller for managing pet records in the API (Version 1.0).
+    /// </summary>
     [ApiVersion("1.0")] 
     [Route("api/v{version:apiVersion}/[controller]")]
     [Authorize]
@@ -138,10 +141,8 @@ public async Task<IActionResult> Post([FromBody] Pet pet, [FromHeader(Name = "X-
         return Ok(JsonSerializer.Deserialize<ApiResponse<Pet>>(existingRequest.Result));
     }
 
-    // 2. Process the request if new
     await _petService.AddPetAsync(pet);
 
-    // ---  AUDIT LOG START ---
     _logger.LogInformation("AUDIT: User {User} CREATED Pet {PetId} ({PetName}) at {Time}. CorrelationID: {CorrelationId}", 
         User.Identity?.Name ?? "Admin", 
         pet.Id,
@@ -149,7 +150,6 @@ public async Task<IActionResult> Post([FromBody] Pet pet, [FromHeader(Name = "X-
         DateTime.UtcNow,
         HttpContext.Items["CorrelationId"] ?? "N/A");
 
-    // 3. Store the result for future retries
     var response = ApiResponse<Pet>.Success(pet, "Pet added successfully!");
     var idempotentRequest = new IdempotentRequest
     {
@@ -198,7 +198,6 @@ public async Task<IActionResult> Post([FromBody] Pet pet, [FromHeader(Name = "X-
             if (pet == null) return NotFound(ApiResponse<Pet>.Failure("Pet not found"));
             
             await _petService.DeletePetAsync(id);
-            // --- AUDIT LOG START ---
             _logger.LogWarning("AUDIT: User {User} DELETED Pet {Id} at {Time}. CorrelationID: {CorrelationId}", 
                 User.Identity?.Name ?? "Admin", 
                 id, 

@@ -91,7 +91,6 @@ namespace PetHealthAPI.Services
                 await transaction.CommitAsync();
                 await ClearCacheAsync();
 
-                // ---  Record Performance & Business Metrics ---
                 watch.Stop();
                 _petsCreatedCounter.Add(1); 
                 _registrationDuration.Record(watch.ElapsedMilliseconds); 
@@ -132,12 +131,10 @@ public async Task ProcessPetHealthWorkflow(int petId, string newStatus)
     using var transaction = await _context.Database.BeginTransactionAsync();
     try
     {
-        // 1. Update Pet Status
         var pet = await _repository.GetByIdAsync(petId);
         if (pet == null) throw new Exception("Pet not found");
         pet.Breed = "Updated via Saga"; 
 
-        // 2. Record Event (Event Sourcing)
         var petEvent = new PetEvent {
             Id = Guid.NewGuid(),
             PetId = petId,
@@ -149,7 +146,6 @@ public async Task ProcessPetHealthWorkflow(int petId, string newStatus)
         _context.PetEvents.Add(petEvent);
         await _context.SaveChangesAsync();
 
-        // 3. Simulate external service failure 
         if (newStatus == "FAIL_TEST") throw new Exception("External Workflow Failed!");
 
         await transaction.CommitAsync();
@@ -158,11 +154,9 @@ public async Task ProcessPetHealthWorkflow(int petId, string newStatus)
     }
     catch (Exception ex)
     {
-        // COMPENSATING TRANSACTION: Rollback logic
         await transaction.RollbackAsync();
         _logger.LogError("Saga Failed! Rollback triggered for Pet {Id}. Error: {Msg}", petId, ex.Message);
         
-        // Task: recovery mechanisms
         await HandleSagaRecovery(petId, ex.Message);
     }
 }
@@ -176,13 +170,11 @@ public async Task RebuildPetStateFromEvents(int petId)
 {
     _logger.LogInformation("REPLAY: Rebuilding state for Pet {Id} from event store...", petId);
 
-    // 1. Get all historical events for this pet
     var events = await _context.PetEvents
         .Where(e => e.PetId == petId)
         .OrderBy(e => e.Timestamp)
         .ToListAsync();
 
-    // 2. Replay logic 
     foreach (var petEvent in events)
     {
         if (petEvent.Version == "v1") {
@@ -195,6 +187,36 @@ public async Task RebuildPetStateFromEvents(int petId)
     }
 
     _logger.LogInformation("REPLAY COMPLETED. Projection rebuilt for Pet {Id}", petId);
+}
+public async Task<UserCohortProfile> GetCohortEvolutionAsync(int userId)
+{
+    var totalEvents = await _context.PetEvents.CountAsync();
+    var recentEvents = await _context.PetEvents
+        .CountAsync(e => e.Timestamp > DateTime.UtcNow.AddDays(-30)); 
+
+    double monthlyAverage = totalEvents / 12.0; 
+    double trajectoryScore = recentEvents - monthlyAverage;
+
+    string cohort = (recentEvents > 5) ? "Champion" : (totalEvents > 0) ? "Explorer" : "Seed";
+
+    var profile = new UserCohortProfile {
+        UserId = userId,
+        CurrentCohort = cohort,
+        TrajectoryScore = Math.Round(trajectoryScore, 2),
+        ProgressionStatus = trajectoryScore > 0 ? "Upward Trajectory (Positive)" : "Downward Trajectory (Negative)",
+        StabilityIndex = (recentEvents > 0 && recentEvents < 10) ? 85.0 : 30.0,
+        AnalysisDate = DateTime.UtcNow
+    };
+
+    if (trajectoryScore > 0) {
+        profile.AdvancementIndicators.Add("User engagement increased by " + trajectoryScore + " points this month.");
+        profile.NextLikelyTransition = "Champion (Stable)";
+    } else {
+        profile.DeclineIndicators.Add("Activity drop detected compared to historical average.");
+        profile.NextLikelyTransition = "Sleeper (Risk)";
+    }
+
+    return profile;
 }
     }
 }

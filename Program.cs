@@ -18,7 +18,6 @@ using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
 using Polly;
 using Polly.Extensions.Http;
-// 1. Serilog Configuration
 Log.Logger = new LoggerConfiguration()
     .Enrich.WithProperty("Service", "PetHealthAPI")
     .MinimumLevel.Information()
@@ -31,7 +30,6 @@ Log.Logger = new LoggerConfiguration()
 var builder = WebApplication.CreateBuilder(args);
 var serviceName = "PetHealthAPI";
 var serviceVersion = "1.0.0";
-// 1. Retry Policy with Logging
 var retryPolicy = HttpPolicyExtensions
     .HandleTransientHttpError()
     .WaitAndRetryAsync(3, 
@@ -43,18 +41,14 @@ var retryPolicy = HttpPolicyExtensions
                 retryCount, outcome.Result?.StatusCode);
         });
 
-// 2. Circuit Breaker
 var circuitBreakerPolicy = HttpPolicyExtensions
     .HandleTransientHttpError()
     .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30));
 
-// 3. Timeout
 var timeoutPolicy = Policy.TimeoutAsync<HttpResponseMessage>(5);
 
-// 4. Bulkhead
 var bulkheadPolicy = Policy.BulkheadAsync<HttpResponseMessage>(2, 10);
 
-// 5. Fallback 
 var fallbackPolicy = HttpPolicyExtensions
     .HandleTransientHttpError()
     .FallbackAsync(new HttpResponseMessage(System.Net.HttpStatusCode.ServiceUnavailable)
@@ -62,13 +56,12 @@ var fallbackPolicy = HttpPolicyExtensions
         Content = new StringContent("The service is currently busy. Please try again later (Polly Fallback).")
     });
 
-// --- Register ResilientClient ONLY ONCE ---
 builder.Services.AddHttpClient("ResilientClient")
-    .AddPolicyHandler(fallbackPolicy) // 1. Outer: Catch failures
-    .AddPolicyHandler(retryPolicy)    // 2. Middle: Try again
-    .AddPolicyHandler(circuitBreakerPolicy) // 3. Inner: Break if too many errors
-    .AddPolicyHandler(timeoutPolicy)   // 4. Inner: Kill slow requests
-    .AddPolicyHandler(bulkheadPolicy); // 5. Inner: Limit resources
+    .AddPolicyHandler(fallbackPolicy) 
+    .AddPolicyHandler(retryPolicy)    
+    .AddPolicyHandler(circuitBreakerPolicy) 
+    .AddPolicyHandler(timeoutPolicy)   
+    .AddPolicyHandler(bulkheadPolicy); 
 
 builder.Services.AddHostedService<PetHealthAPI.BackgroundServices.OutboxProcessor>();
 
@@ -123,7 +116,6 @@ builder.Services.AddOpenTelemetry()
 
 builder.Host.UseSerilog(); 
 
-// 1. Database Configuration
 var dbProvider = builder.Configuration.GetValue<string>("DatabaseProvider");
 
 if (dbProvider == "Sqlite")
@@ -138,6 +130,7 @@ else
 }
 builder.Services.AddScoped<PetHealthAPI.Repositories.IPetRepository, PetHealthAPI.Repositories.PetRepository>();
 builder.Services.AddScoped<PetHealthAPI.Services.IPetService, PetHealthAPI.Services.PetService>();
+builder.Services.AddScoped<PetHealthAPI.Services.ICustomerIntelligenceService, PetHealthAPI.Services.CustomerIntelligenceService>();
 builder.Services.AddDistributedMemoryCache();
 // builder.Services.AddStackExchangeRedisCache(options =>
 // {
@@ -186,14 +179,12 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters(); 
 builder.Services.AddValidatorsFromAssemblyContaining<PetHealthAPI.Validators.PetValidator>();
-// 2. Swagger Configuration with JWT
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new SwaggerModels.OpenApiInfo { Title = "Pet API v1", Version = "v1" });
     options.SwaggerDoc("v2", new SwaggerModels.OpenApiInfo { Title = "Pet API v2", Version = "v2" });    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     options.IncludeXmlComments(xmlPath);
-    // JWT Security Definition
     options.AddSecurityDefinition("Bearer", new SwaggerModels.OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -214,7 +205,6 @@ builder.Services.AddSwaggerGen(options =>
         }
     } );
 });
-// 3. JWT Authentication Setup
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var secretKey = jwtSettings["Key"];
 if (string.IsNullOrEmpty(secretKey))
@@ -250,24 +240,20 @@ builder.Services.AddAuthentication(options =>
     };
 });
 builder.Services.AddAuthorization();
-// 1. Response Compression 
 builder.Services.AddResponseCompression(options =>
 {
     options.EnableForHttps = true;
 });
 
-// 2. Output Caching 
 builder.Services.AddOutputCache(options =>
 {
     options.AddPolicy("PetCachePolicy", builder => 
         builder.Expire(TimeSpan.FromMinutes(5)).Tag("pets_tag"));
 });
 var app = builder.Build();
-// Middleware Order
 app.UseMiddleware<PetHealthAPI.Middleware.ExceptionMiddleware>();
 app.UseMiddleware<PetHealthAPI.Middleware.CorrelationIdMiddleware>();
 
-// 2. Security Headers 
 app.Use(async (context, next) =>
 {
     context.Response.Headers.Append("X-Frame-Options", "DENY");

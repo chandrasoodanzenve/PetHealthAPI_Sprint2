@@ -1,4 +1,4 @@
-# 🚨 PetHealth Pro - Disaster Recovery (DR) Playbook
+#  PetHealth Pro - Disaster Recovery (DR) Playbook
 
 ## 1. Objectives
 
@@ -23,7 +23,7 @@
 2. Re-sync data from West US to East US.
 3. Switch Traffic Manager priority back to Primary.
 
-## 📋 Emergency Incident Response Checklist
+##  Emergency Incident Response Checklist
 
 - [ ] **Triage**: Verify if the outage is regional or just a single service failure.
 - [ ] **Communication**: Send "Service Disruption" notification to stakeholders.
